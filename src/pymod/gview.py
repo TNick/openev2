@@ -1732,14 +1732,14 @@ class GvRaster(_gv.Raster):
 
         See the autoscale() method for information on this is established.
         """
-        return self.min
+        return self.autoscale()[0]
 
     def get_max(self):
         """Get the maximum for default scaling
 
         See the autoscale() method for information on this is established.
         """
-        return self.max
+        return self.autoscale()[1]
 
     def force_load(self):
         """Force loading all full res data.
@@ -2542,13 +2542,13 @@ class GvRasterLayer(GvLayer, _gv.RasterLayer):
         """
         if min is None:
             if data is not None:
-                min = data.min
+                min = data.get_min()
             else:
                 min = 0
 
         if max is None:
             if data is not None:
-                max = data.max
+                max = data.get_max()
             else:
                 max = 255
 
