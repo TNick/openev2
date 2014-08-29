@@ -21,7 +21,9 @@ include $(MKINCLDIR)/generic
 # List of managed subdirectories in dependency order
 #
 
-  MANAGED_DIRS = lib cc pymod
+#  MANAGED_DIRS = lib cc pymod
+# pymod gets handled by setup.py now
+  MANAGED_DIRS = lib cc
 
 #
 # Include managed targets
