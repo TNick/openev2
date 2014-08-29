@@ -16,7 +16,7 @@ Installing
 2. sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
 3. sudo apt-get update
 
-4. sudo apt-get install python-gdal  (you might need more than this, but it's a start)
+4. sudo apt-get install python-gdal python-gtk2-dev python-gtkglext1 libgtkglext1-dev libgtkglext1  (you might need more than this, but it's a start)
 
 5. cd openev2/src && make install && cd ..
 
