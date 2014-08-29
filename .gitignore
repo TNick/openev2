@@ -1,0 +1,6 @@
+src/lib/gv/gv-enum-types.c
+src/lib/gv/gv-enum-types.h
+src/lib/gv/gv.defs
+src/lib/gv/gv_pwrap.c
+src/lib/gv/makefile.vc
+
