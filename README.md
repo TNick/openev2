@@ -12,15 +12,15 @@ the build work.
 Installing
 --------
 
-1a) sudo apt-get install python-software-properties
-1b) sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
-1c) sudo apt-get update
+1. sudo apt-get install python-software-properties
+2. sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+3. sudo apt-get update
 
-2) sudo apt-get install python-gdal  (you might need more than this, but it's a start)
+4. sudo apt-get install python-gdal  (you might need more than this, but it's a start)
 
-3) cd openev2/src && make install && cd ..
+5. cd openev2/src && make install && cd ..
 
-4) sudo python setup.py install
+6. sudo python setup.py install
 
 `openev2` should now be installed system-wide, in /usr/local.
 
