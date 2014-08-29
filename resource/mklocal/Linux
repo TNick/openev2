@@ -2,8 +2,8 @@
 # Architecture specific variables                                             #
 ###############################################################################
 
-  ARCHCFLAGS = -c -g -DHAVE_OGR
-  ARCHCCFLAGS = -c -g -DHAVE_OGR
+  ARCHCFLAGS = -c -g -DHAVE_OGR -fPIC
+  ARCHCCFLAGS = -c -g -DHAVE_OGR -fPIC
   ARCHFFLAGS = -e
   ARCHLDFLAGS = -g -DHAVE_OGR
   ARCHARFLAGS = -ruv
@@ -40,8 +40,7 @@
 # try 'unset' on these vars to use the below defaults.
 #
 
-  WC_ROOT ?= $(SYSTEM)/..
-  INSTALL_PREFIX ?= /opt/vexcel/openev2
+  INSTALL_PREFIX = /usr
   ifeq ($(origin PKG_CONFIG_PATH), undefined)
     PKG_CONFIG_PATH = $(INSTALL_PREFIX)/lib/pkgconfig
   else
@@ -62,9 +61,6 @@
 # GDAL
 #
 
-#  GDAL_INCS = -I$(INSTALL_PREFIX)/include
-#  GDAL_LIBSL = -L$(INSTALL_PREFIX)/lib
-#  GDAL_LIBS = -lgdal
   GDAL_INCS = `gdal-config --cflags`
   GDAL_LIBSL = `gdal-config --libs | cut -f 1 -d' '`
   GDAL_LIBS = `gdal-config --libs | cut -f 2 -d' '`
@@ -98,8 +94,7 @@
 #
 
   PYGTK_DEFS = $(PYGTK)/$(PYGTK_VER)/defs
-  PYH2DEF = $(PYGTK)/$(PYGTK_VER)/codegen/h2def.py
-#  PYCODEGEN = $(PYGTK)/$(PYGTK_VER)/codegen/codegen.py
+  PYH2DEF = $(PYGOBJECT)/$(PYGOBJECT_VER)/codegen/h2def.py
   PYCODEGEN = $(PYGOBJECT)/$(PYGOBJECT_VER)/codegen/codegen.py
   PYREGISTER = --register $(PYGTK_DEFS)/gdk-types.defs \
 	       --register $(PYGTK_DEFS)/gtk-types.defs
