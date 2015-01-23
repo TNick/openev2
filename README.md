@@ -8,6 +8,8 @@ to work through but it at least can open and display geotiffs.
 Thanks to @sanak on github for doing the git import and some hints on making
 the build work.
 
+This version was forked from Adam Fritzler's (@midendian).
+[repository](https://github.com/midendian/openev2).
 
 Installing
 --------
