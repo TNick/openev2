@@ -1,0 +1,158 @@
+#ifndef OPENEV_CONFIG_INCLUDE
+#define OPENEV_CONFIG_INCLUDE
+
+
+/**
+ * @def TARGET_SYSTEM_WIN32
+ * @brief Windows or not.
+ */
+#ifndef TARGET_SYSTEM_WIN32
+#cmakedefine TARGET_SYSTEM_WIN32
+#endif
+
+/**
+ * @def TARGET_COMPILER_MSVC
+ * @brief Microsoft compiler or not.
+ */
+#ifndef TARGET_COMPILER_MSVC
+#cmakedefine TARGET_COMPILER_MSVC
+#endif
+
+/**
+ * @def TARGET_32BITS
+ * @brief 32 bit architecture or not.
+ */
+#ifndef TARGET_32BITS
+#cmakedefine TARGET_32BITS
+#endif
+
+/**
+ * @def TARGET_32BITS
+ * @brief 64 bit architecture or not.
+ */
+#ifndef TARGET_64BITS
+#cmakedefine TARGET_64BITS
+#endif
+
+/**
+ * @def TARGET_SYSTEM
+ * @brief Name of the target system.
+ */
+#ifndef TARGET_SYSTEM
+#define TARGET_SYSTEM "@CMAKE_SYSTEM_NAME@"
+#endif
+
+/**
+ * @def TARGET_COMPILER
+ * @brief Name of the compiler.
+ */
+#ifndef TARGET_COMPILER
+#define TARGET_COMPILER "@CMAKE_C_COMPILER_ID@"
+#endif
+
+
+/**
+ * @def STDC_HEADERS
+ * @brief Defined if target system has the ANSI C header files.
+ */
+#ifndef STDC_HEADERS
+#cmakedefine STDC_HEADERS
+#endif
+
+/**
+ * @def HAVE_FCNTL_H
+ * @brief Defined if target system has the <fcntl.h> header file.
+ */
+#ifndef HAVE_FCNTL_H
+#cmakedefine HAVE_FCNTL_H
+#endif
+
+/**
+ * @def HAVE_UNISTD_H
+ * @brief Defined if target system has the <unistd.h> header file.
+ */
+#ifndef HAVE_UNISTD_H
+#cmakedefine HAVE_UNISTD_H
+#endif
+
+/**
+ * @def HAVE_DLFCN_H
+ * @brief Defined if target system has the <dlfcn.h> header file.
+ */
+#ifndef HAVE_DLFCN_H
+#cmakedefine HAVE_DLFCN_H
+#endif
+
+
+/**
+ * @def HAVE_DOPRNT
+ * @brief Defined if target system has the _doprnt() function.
+ */
+#ifndef HAVE_DOPRNT
+#cmakedefine HAVE_DOPRNT
+#endif
+
+/**
+ * @def HAVE_VPRINTF
+ * @brief Defined if target system has the vprintf() function.
+ */
+#ifndef HAVE_VPRINTF
+#cmakedefine HAVE_VPRINTF
+#endif
+
+/**
+ * @def WORDS_BIGENDIAN
+ * @brief Defined if target system is big endian.
+ */
+#ifndef WORDS_BIGENDIAN
+#cmakedefine WORDS_BIGENDIAN
+#endif
+
+/**
+ * @def HAVE_BROKEN_GL_POINTS
+ * @brief Defined if ...
+ * @deprecated
+ * This definition was present in the configuration files
+ * at the time CMake build system was implemented.
+ *
+ * The source code does not seem use it anywhere.
+ */
+#ifndef HAVE_BROKEN_GL_POINTS
+#cmakedefine HAVE_BROKEN_GL_POINTS
+#endif
+
+/**
+ * @def SHOW_TESS_LINES
+ * @deprecated
+ * This definition was present in the configuration files
+ * at the time CMake build system was implemented.
+ *
+ * The source code does not seem use it anywhere.
+ */
+#ifndef SHOW_TESS_LINES
+#cmakedefine SHOW_TESS_LINES
+#endif
+
+/**
+ * @def HAVE_OGR
+ * @brief Defined if ...
+ * @deprecated
+ * This definition was present in the configuration files
+ * at the time CMake build system was implemented.
+ *
+ * GDal and OGR merged and GDal source code always seem to
+ * have OGR.
+ */
+#ifndef HAVE_OGR
+#cmakedefine HAVE_OGR
+#endif
+
+/**
+ * @def HAVE_LIBDL
+ * @brief Defined if libdl was found at configure time.
+ */
+#ifndef HAVE_LIBDL
+#cmakedefine HAVE_LIBDL
+#endif
+
+#endif // OPENEV_CONFIG_INCLUDE
