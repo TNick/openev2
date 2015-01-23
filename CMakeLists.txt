@@ -176,10 +176,36 @@ include_directories (${GDAL_INCLUDE_DIRS})
 find_package(LibDL)
 set (HAVE_LIBDL ${LIBDL_FOUND})
 
+find_package(Doxygen)
 # ============================================================================
 
 # ----------------------------------------------------------------------------
 # subcomponents
 add_subdirectory(resource)
 add_subdirectory(src)
+
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# documenttion
+message(STATUS "OPENEV_BUILD_DOCUMENTATION = ${OPENEV_BUILD_DOCUMENTATION}")
+message(STATUS "DOXYGEN_DOT_EXECUTABLE = ${DOXYGEN_DOT_EXECUTABLE}")
+if(OPENEV_BUILD_DOCUMENTATION)
+    if(EXISTS "${PROJECT_SOURCE_DIR}/Doxyfile.in")
+
+        configure_file (
+            "${PROJECT_SOURCE_DIR}/Doxyfile.in"
+            "${PROJECT_BINARY_DIR}/Doxyfile"
+            @ONLY
+        )
+
+        if(DOXYGEN_FOUND)
+            add_custom_target(doc
+                ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/Doxyfile
+                WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                COMMENT "Generating API documentation with Doxygen" VERBATIM
+            )
+        endif(DOXYGEN_FOUND)
+    endif(EXISTS "${PROJECT_SOURCE_DIR}/Doxyfile.in")
+endif(OPENEV_BUILD_DOCUMENTATION)
 # ============================================================================
