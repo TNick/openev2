@@ -61,6 +61,11 @@
 # GDAL
 #
 
+
+# TNick: conflict at merge time; should be fixed by a CMake script
+#  GDAL_INCS = -I$(INSTALL_PREFIX)/include
+#  GDAL_LIBSL = -L$(INSTALL_PREFIX)/lib
+#  GDAL_LIBS = -lgdal
   GDAL_INCS = `gdal-config --cflags`
   GDAL_LIBSL = `gdal-config --libs | cut -f 1 -d' '`
   GDAL_LIBS = `gdal-config --libs | cut -f 2 -d' '`
@@ -93,8 +98,12 @@
 # Python module library vars
 #
 
+# TNick: conflict at merge time; should be fixed by a CMake script
   PYGTK_DEFS = $(PYGTK)/$(PYGTK_VER)/defs
   PYH2DEF = $(PYGOBJECT)/$(PYGOBJECT_VER)/codegen/h2def.py
+  PYH2DEF = $(PYGTK)/$(PYGTK_VER)/codegen/h2def.py
+#  PYCODEGEN = $(PYGTK)/$(PYGTK_VER)/codegen/codegen.py
+  
   PYCODEGEN = $(PYGOBJECT)/$(PYGOBJECT_VER)/codegen/codegen.py
   PYREGISTER = --register $(PYGTK_DEFS)/gdk-types.defs \
 	       --register $(PYGTK_DEFS)/gtk-types.defs
