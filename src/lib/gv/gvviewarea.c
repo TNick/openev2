@@ -54,6 +54,8 @@
  *
  */
 
+#include <gv_config.h>
+#include <gluos.h>
 #include "gvmarshal.h"
 #include "gvviewarea.h"
 #include "gvlayer.h"

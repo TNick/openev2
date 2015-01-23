@@ -27,6 +27,8 @@
  *
  */
 
+#include <gv_config.h>
+#include <gluos.h>
 #include "gvnodetool.h"
 #include "gvshapeslayer.h"
 #include "gvundo.h"

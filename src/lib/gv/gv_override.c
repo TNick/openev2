@@ -9,6 +9,11 @@
  * to parenthesis, make sure variable names are included).
  */
 
+
+#include <gv_config.h>
+
+#ifdef HAVE_PYTHON
+
 /* GTK2 Port */
 #include <pygobject.h>
 
@@ -285,3 +290,4 @@ GArray *build_gv_line(PyObject *pylist, int min_len)
     }
     return line;
 }
+#endif // HAVE_PYTHON

@@ -27,6 +27,8 @@
  *
  */
 
+#include <gv_config.h>
+#include <gluos.h>
 #include "gvzoompantool.h"
 #include <gdk/gdkkeysyms.h>
 #include <GL/gl.h>

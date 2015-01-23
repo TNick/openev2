@@ -27,6 +27,8 @@
  *
  */
 
+#include <gv_config.h>
+#include <gluos.h>
 #include "gvpquerylayer.h"
 #include "gvshapelayer.h"
 #include "gvutils.h"

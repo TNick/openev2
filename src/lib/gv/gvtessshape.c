@@ -27,6 +27,9 @@
  *
  */
 
+#include <gv_config.h>
+#include "gluos.h"
+
 #include "gvshapes.h"
 #include <string.h>
 #include <GL/glu.h>

@@ -28,6 +28,8 @@
  *
  */
 
+#include <gv_config.h>
+#include <gluos.h>
 #include "gvshapelayer.h"
 #include "gvrenderinfo.h"
 #include "cpl_error.h"

@@ -109,6 +109,8 @@
  *
  */
 
+#include <gv_config.h>
+#include <gluos.h>
 #include "gvrenderinfo.h"
 #include "gvshapeslayer.h"
 #include "cpl_string.h"

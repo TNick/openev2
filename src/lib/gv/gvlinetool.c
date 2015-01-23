@@ -27,6 +27,8 @@
  *
  */
 
+#include <gv_config.h>
+#include <gluos.h>
 #include <stdio.h>
 #include <gdk/gdkkeysyms.h>
 #include "gvlinetool.h"

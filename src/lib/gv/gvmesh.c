@@ -28,6 +28,8 @@
  *
  */
 
+#include <gv_config.h>
+#include <gluos.h>
 #include <stdio.h>
 #include <math.h>
 #include "gvviewarea.h"

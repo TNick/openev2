@@ -28,6 +28,10 @@
  *
  */
 
+#include <gv_config.h>
+
+#ifdef HAVE_PYTHON
+
 /* include this first, before NO_IMPORT_PYGOBJECT is defined */
 #if defined(__APPLE__) && defined(__MACH__)
 #  define NO_IMPORT_PYGOBJECT
@@ -90,3 +94,4 @@ init_gv(void)
         Py_FatalError (msg);
     }
 }
+#endif // HAVE_PYTHON

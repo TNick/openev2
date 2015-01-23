@@ -1,5 +1,11 @@
 /* -- THIS FILE IS GENERATED - DO NOT EDIT *//* -*- Mode: C; c-basic-offset: 4 -*- */
 
+#include <gv_config.h>
+
+#ifdef HAVE_PYTHON
+// TODO: handle at CMake level; avoid including the file if
+// Python is not found
+
 #include <Python.h>
 
 
@@ -8521,3 +8527,4 @@ _gv_register_classes(PyObject *d)
     pygobject_register_class(d, "GvAutopanTool", GV_TYPE_AUTOPAN_TOOL, &PyGvAutopanTool_Type, Py_BuildValue("(O)", &PyGvTool_Type));
     pyg_set_object_has_new_constructor(GV_TYPE_AUTOPAN_TOOL);
 }
+#endif // HAVE_PYTHON

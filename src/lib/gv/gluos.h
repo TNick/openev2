@@ -51,7 +51,29 @@
 #pragma warning(disable : 4244)
 #pragma warning(disable : 4761)
 
+
+// this was added for cmake support
+// it should either be extended or moved, probably
+#include <gv_config.h>
+
+#ifdef OPENEV_SHARED
+#ifdef OPENEV_SHARED_EXPORT
+#define GLAPI __declspec(dllexport)
+#else // OPENEV_SHARED_EXPORT
+#define GLAPI __declspec(dllimport)
+#endif // OPENEV_SHARED_EXPORT
+#else // OPENEV_SHARED
+#define GLAPI
+#endif /* OPENEV_SHARED */
+// this was added for cmake support
+
+#ifdef WINGDIAPI
+#undef WINGDIAPI
+#endif
+#define WINGDIAPI
+
 #else
+
 
 /* Disable Microsoft-specific keywords */
 #define GLAPI

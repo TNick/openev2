@@ -155,4 +155,24 @@
 #cmakedefine HAVE_LIBDL
 #endif
 
+/**
+ * @def OPENEV_SHARED
+ * @brief If defined we're creating a shared library.
+ *
+ * We're defining OPENEV_SHARED_EXPORT when building the library;
+ * this symbol will be undefined when third parties will build it.
+ */
+#ifndef OPENEV_SHARED
+#cmakedefine OPENEV_SHARED
+#endif
+
+/**
+ * @def HAVE_PYTHON
+ * @brief If defined the system has python.
+ */
+#ifndef HAVE_PYTHON
+#cmakedefine HAVE_PYTHON
+#endif
+
+
 #endif // OPENEV_CONFIG_INCLUDE

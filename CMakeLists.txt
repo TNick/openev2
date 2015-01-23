@@ -42,6 +42,13 @@ option( OPENEV_BUILD_TESTS
 option( OPENEV_BUILD_DOCUMENTATION
 		"Activate or deactivate building of documentation"
 		OFF)
+option( OPENEV_SHARED
+        "Build the library as a shared library or as a static library"
+        OFF)
+
+# What is ATLANTIS_BUILD?
+
+add_definitions (-D_CRT_SECURE_NO_WARNINGS )
 # ============================================================================
 
 # ----------------------------------------------------------------------------
@@ -121,9 +128,50 @@ TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
 # ----------------------------------------------------------------------------
 # Dependencies
 find_package(OpenGL REQUIRED)
+include_directories (${OPENGL_INCLUDE_DIRS})
+
+find_package(GLib REQUIRED)
+include_directories (${GLIB_INCLUDE_DIRS})
+
+set(GTK2_ADDITIONAL_SUFFIXES "gdk;gtk-2.0/gdk;include/gtk-2.0/gdk;lib/gtk-2.0/gdk;gtk-2.0/include/gtk-2.0/gdk;gtk-2.0/lib/gtk-2.0/gdk")
+find_package(Gtk2 REQUIRED)
+include_directories (${GTK2_INCLUDE_DIRS})
+
+
+
+find_path(GDK_CONFIG "gdkconfig.h"
+    PATHS ${GTK2_INCLUDE_DIRS} ${CMAKE_MODULE_PATH}
+    PATH_SUFFIXES "lib/gtk-2.0/include")
+message(STATUS "GDK_CONFIG = ${GDK_CONFIG}")
+find_path(GDK_PIXBUF "gdk-pixbuf/gdk-pixbuf.h"
+    PATHS ${GTK2_INCLUDE_DIRS} ${CMAKE_MODULE_PATH}
+    PATH_SUFFIXES "gdk-pixbuf-2.0")
+message(STATUS "GDK_PIXBUF = ${GDK_PIXBUF}")
+find_path(GDK_GLEXT "gtk/gtkgl.h"
+    PATHS ${GTK2_INCLUDE_DIRS} ${CMAKE_MODULE_PATH}
+    PATH_SUFFIXES "gtkglext-1.0")
+message(STATUS "GDK_GLEXT = ${GDK_GLEXT}")
+find_path(GDK_GLEXT_CFG "gdkglext-config.h"
+    PATHS ${GTK2_INCLUDE_DIRS} ${CMAKE_MODULE_PATH}
+    PATH_SUFFIXES "lib/gtkglext-1.0/include")
+message(STATUS "GDK_GLEXT_CFG = ${GDK_GLEXT_CFG}")
+
+include_directories (${GTK2_GTK_INCLUDE_DIR})
+include_directories (${GTK2_GDK_INCLUDE_DIR})
+include_directories (${GTK2_CAIRO_INCLUDE_DIR})
+include_directories (${GTK2_PANGO_INCLUDE_DIR})
+include_directories (${GTK2_ATK_INCLUDE_DIR})
+include_directories (${GTK2_FONTCONFIG_INCLUDE_DIR})
+include_directories (${GTK2_GOBJECT_INCLUDE_DIR})
+include_directories (${GDK_CONFIG})
+include_directories (${GDK_PIXBUF})
+include_directories (${GDK_GLEXT})
+include_directories (${GDK_GLEXT_CFG})
+
 
 find_package(Gdal REQUIRED)
 set (HAVE_OGR ${GDAL_FOUND})
+include_directories (${GDAL_INCLUDE_DIRS})
 
 find_package(LibDL)
 set (HAVE_LIBDL ${LIBDL_FOUND})

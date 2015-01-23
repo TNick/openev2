@@ -26,6 +26,10 @@
  *
  */
 
+#include <gv_config.h>
+
+#ifdef HAVE_PYTHON
+
 #define GV_SHAPE(op) (((PyGvShape *)(op))->_o)
 
 typedef struct
@@ -647,3 +651,4 @@ PyTypeObject G_GNUC_INTERNAL PyGvShape_Type = {
     (freefunc)0,             /* tp_free */
     (inquiry)0              /* tp_is_gc */
 };
+#endif // HAVE_PYTHON

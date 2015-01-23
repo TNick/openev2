@@ -123,8 +123,13 @@ set (LIB_SOURCES
 
 set (LIB_DEPS )
 
-
-add_library(gv ${LIB_HEADERS} ${LIB_SOURCES})
+if (OPENEV_SHARED)
+    set(LIB_TYPE SHARED)
+    add_definitions (-DOPENEV_SHARED_EXPORT)
+else ()
+    set(LIB_TYPE STATIC)
+endif()
+add_library(gv ${LIB_TYPE} ${LIB_HEADERS} ${LIB_SOURCES})
 #target_link_libraries (gv ${LIB_DEPS})
 
 # ============================================================================

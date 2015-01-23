@@ -56,6 +56,8 @@
 #ifndef __GV_AUTOPAN_TOOL_H__
 #define __GV_AUTOPAN_TOOL_H__
 
+#include <gv_config.h>
+#include <gluos.h>
 #include "gvtypes.h"
 #include "gvtool.h"
 #include "gvrasterlayer.h"

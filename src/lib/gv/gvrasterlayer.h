@@ -30,6 +30,8 @@
 #ifndef __GV_RASTER_LAYER_H__
 #define __GV_RASTER_LAYER_H__
 
+#include <gv_config.h>
+#include <gluos.h>
 #include <gtk/gtkgl.h>
 #ifdef _WIN32
 #include <Windows.h>
