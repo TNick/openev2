@@ -295,7 +295,7 @@ const char * gv_properties_get_value_by_index( GvProperties * properties,
 }
 
 /************************************************************************/
-/*                        g_properties_remove()                         */
+/*                        gv_properties_remove()                         */
 /*                                                                      */
 /*      Remove the indicated property, if is it present.                */
 /************************************************************************/

@@ -45,6 +45,9 @@ option( OPENEV_BUILD_DOCUMENTATION
 option( OPENEV_SHARED
         "Build the library as a shared library or as a static library"
         OFF)
+option( USE_HASH_BASED_GVPROPERTIES
+        "GvProperties with strings"
+        OFF)
 
 # What is ATLANTIS_BUILD?
 

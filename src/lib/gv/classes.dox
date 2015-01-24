@@ -1,633 +1,1226 @@
 /*! \page gvclasses Classes
 
+\par  gv_properties
+GvProperties is a hash table based implementation.
+
+Each GvProperties is a guint32 pointer.  If it is NULL there
+are no properties otherwise it points to an array of        
+integers:                                                   
+                                                            
+-  [0] = Max allocated name/values possible.
+-  [1] = Number of name/value property settings.
+-  [2] = key id of first property name.
+-  [3] = quark id of first property values.
+-  ...
+
+The property names are kept in a custom case insensitive    
+symbol table and hash table.  The property values (which    
+must be case sensitive) are implemented using normal GLib   
+quarks.                                                 
+
+<ul>
+<li>\link gv_properties_clear() clear()  \endlink
+Wipe all properties.</li>
+<li>\link gv_properties_copy() copy()  \endlink
+Make an efficient copy of a properties list.</li>
+<li>\link gv_properties_count() count()  \endlink
+Return the number of name/value properties in this list.</li>
+<li>\link gv_properties_destroy() destroy()  \endlink
+Wipe whole properties list, recovering all allocation.</li>
+<li>\link gv_properties_get() get()  \endlink
+Fetch a single property or return NULL on failure.</li>
+<li>\link gv_properties_get_name_by_index() get_name_by_index()  \endlink
+Fetch the propert name of the 'nth' entry in the property list.</li>
+<li>\link gv_properties_get_value_by_index() get_value_by_index()  \endlink
+Fetch the propert name of the 'nth' entry in the property list.</li>
+<li>\link gv_properties_init() init()  \endlink
+Initialize a GvProperties value. </li>
+<li>\link gv_properties_remove() remove()  \endlink
+Remove the indicated property, if is it present. </li>
+<li>\link gv_properties_set() set()  \endlink
+Set a single name/value property set in the list.</li>
+</ul>
+
+\par  gv_data
+\link _GvData GvData \endlink is a base class for a number of structures.
+Inherits from GObject.
+
+Has a number of signals: changing, changed, meta-changed and destroy.
+
+<ul>
+<li>\link gv_data_changed() changed()  \endlink
+</li>
+<li>\link gv_data_changing() changing()  \endlink
+</li>
+<li>\link gv_data_child_changed() child_changed()  \endlink
+</li>
+<li>\link gv_data_class_init() class_init()  \endlink
+</li>
+<li>\link gv_data_del_memento() del_memento()  \endlink
+</li>
+<li>\link gv_data_destroy() destroy()  \endlink
+</li>
+<li>\link gv_data_dispose() dispose()  \endlink
+</li>
+<li>\link gv_data_finalize() finalize()  \endlink
+</li>
+<li>\link gv_data_freeze() freeze()  \endlink
+</li>
+<li>\link gv_data_get_memento() get_memento()  \endlink
+</li>
+<li>\link gv_data_get_name() get_name()  \endlink
+</li>
+<li>\link gv_data_get_parent() get_parent()  \endlink
+</li>
+<li>\link gv_data_get_projection() get_projection()  \endlink
+</li>
+<li>\link gv_data_get_properties() get_properties()  \endlink
+</li>
+<li>\link gv_data_get_property() get_property()  \endlink
+</li>
+<li>\link gv_data_get_type() get_type()  \endlink
+GType for this data</li>
+<li>\link gv_data_init() init()  \endlink
+</li>
+<li>\link gv_data_is_read_only() is_read_only()  \endlink
+</li>
+<li>\link gv_data_meta_changed() meta_changed()  \endlink
+</li>
+<li>\link gv_data_parent_changed() parent_changed()  \endlink
+</li>
+<li>\link gv_data_registry_dump() registry_dump()  \endlink
+</li>
+<li>\link gv_data_set_memento() set_memento()  \endlink
+</li>
+<li>\link gv_data_set_name() set_name()  \endlink
+</li>
+<li>\link gv_data_set_parent() set_parent()  \endlink
+</li>
+<li>\link gv_data_set_projection() set_projection()  \endlink
+</li>
+<li>\link gv_data_set_property() set_property()  \endlink
+</li>
+<li>\link gv_data_set_read_only() set_read_only()  \endlink
+</li>
+<li>\link gv_data_thaw() thaw()  \endlink
+</li>
+</ul>
+
+
+
+
+
+
+
+
 \par  atk
 <ul>
-<li>\link atk_add_focus_tracker() add_focus_tracker()  \endlink</li>
-<li>\link atk_add_global_event_listener() add_global_event_listener()  \endlink</li>
-<li>\link atk_add_key_event_listener() add_key_event_listener()  \endlink</li>
-<li>\link atk_focus_tracker_init() focus_tracker_init()  \endlink</li>
-<li>\link atk_focus_tracker_notify() focus_tracker_notify()  \endlink</li>
-<li>\link atk_get_focus_object() get_focus_object()  \endlink</li>
-<li>\link atk_get_root() get_root()  \endlink</li>
-<li>\link atk_get_toolkit_name() get_toolkit_name()  \endlink</li>
-<li>\link atk_get_toolkit_version() get_toolkit_version()  \endlink</li>
-<li>\link atk_remove_focus_tracker() remove_focus_tracker()  \endlink</li>
-<li>\link atk_remove_global_event_listener() remove_global_event_listener()  \endlink</li>
-<li>\link atk_remove_key_event_listener() remove_key_event_listener()  \endlink</li>
-<li>\link atk_util_get_type() util_get_type()  \endlink</li>
+<li>\link atk_add_focus_tracker() add_focus_tracker()  \endlink
+</li>
+<li>\link atk_add_global_event_listener() add_global_event_listener()  \endlink
+</li>
+<li>\link atk_add_key_event_listener() add_key_event_listener()  \endlink
+</li>
+<li>\link atk_focus_tracker_init() focus_tracker_init()  \endlink
+</li>
+<li>\link atk_focus_tracker_notify() focus_tracker_notify()  \endlink
+</li>
+<li>\link atk_get_focus_object() get_focus_object()  \endlink
+</li>
+<li>\link atk_get_root() get_root()  \endlink
+</li>
+<li>\link atk_get_toolkit_name() get_toolkit_name()  \endlink
+</li>
+<li>\link atk_get_toolkit_version() get_toolkit_version()  \endlink
+</li>
+<li>\link atk_remove_focus_tracker() remove_focus_tracker()  \endlink
+</li>
+<li>\link atk_remove_global_event_listener() remove_global_event_listener()  \endlink
+</li>
+<li>\link atk_remove_key_event_listener() remove_key_event_listener()  \endlink
+</li>
+<li>\link atk_util_get_type() util_get_type()  \endlink
+</li>
 </ul>
-\par  gv_data
-<ul>
-<li>\link gv_data_changed() changed()  \endlink</li>
-<li>\link gv_data_changing() changing()  \endlink</li>
-<li>\link gv_data_child_changed() child_changed()  \endlink</li>
-<li>\link gv_data_class_init() class_init()  \endlink</li>
-<li>\link gv_data_del_memento() del_memento()  \endlink</li>
-<li>\link gv_data_destroy() destroy()  \endlink</li>
-<li>\link gv_data_dispose() dispose()  \endlink</li>
-<li>\link gv_data_finalize() finalize()  \endlink</li>
-<li>\link gv_data_freeze() freeze()  \endlink</li>
-<li>\link gv_data_get_memento() get_memento()  \endlink</li>
-<li>\link gv_data_get_name() get_name()  \endlink</li>
-<li>\link gv_data_get_parent() get_parent()  \endlink</li>
-<li>\link gv_data_get_projection() get_projection()  \endlink</li>
-<li>\link gv_data_get_properties() get_properties()  \endlink</li>
-<li>\link gv_data_get_property() get_property()  \endlink</li>
-<li>\link gv_data_get_type() get_type()  \endlink</li>
-<li>\link gv_data_init() init()  \endlink</li>
-<li>\link gv_data_is_read_only() is_read_only()  \endlink</li>
-<li>\link gv_data_meta_changed() meta_changed()  \endlink</li>
-<li>\link gv_data_parent_changed() parent_changed()  \endlink</li>
-<li>\link gv_data_registry_dump() registry_dump()  \endlink</li>
-<li>\link gv_data_set_memento() set_memento()  \endlink</li>
-<li>\link gv_data_set_name() set_name()  \endlink</li>
-<li>\link gv_data_set_parent() set_parent()  \endlink</li>
-<li>\link gv_data_set_projection() set_projection()  \endlink</li>
-<li>\link gv_data_set_property() set_property()  \endlink</li>
-<li>\link gv_data_set_read_only() set_read_only()  \endlink</li>
-<li>\link gv_data_thaw() thaw()  \endlink</li>
-</ul>
+
 \par  gv_layer
 <ul>
-<li>\link gv_layer_class_init() class_init()  \endlink</li>
-<li>\link gv_layer_display_change() display_change()  \endlink</li>
-<li>\link gv_layer_draw() draw()  \endlink</li>
-<li>\link gv_layer_extents() extents()  \endlink</li>
-<li>\link gv_layer_finalize() finalize()  \endlink</li>
-<li>\link gv_layer_get_type() get_type()  \endlink</li>
-<li>\link gv_layer_get_view() get_view()  \endlink</li>
-<li>\link gv_layer_init() init()  \endlink</li>
-<li>\link gv_layer_is_visible() is_visible()  \endlink</li>
-<li>\link gv_layer_reproject() reproject()  \endlink</li>
-<li>\link gv_layer_set_presentation() set_presentation()  \endlink</li>
-<li>\link gv_layer_set_visible() set_visible()  \endlink</li>
-<li>\link gv_layer_set_visible_temp() set_visible_temp()  \endlink</li>
-<li>\link gv_layer_setup() setup()  \endlink</li>
-<li>\link gv_layer_teardown() teardown()  \endlink</li>
+<li>\link gv_layer_class_init() class_init()  \endlink
+</li>
+<li>\link gv_layer_display_change() display_change()  \endlink
+</li>
+<li>\link gv_layer_draw() draw()  \endlink
+</li>
+<li>\link gv_layer_extents() extents()  \endlink
+</li>
+<li>\link gv_layer_finalize() finalize()  \endlink
+</li>
+<li>\link gv_layer_get_type() get_type()  \endlink
+</li>
+<li>\link gv_layer_get_view() get_view()  \endlink
+</li>
+<li>\link gv_layer_init() init()  \endlink
+</li>
+<li>\link gv_layer_is_visible() is_visible()  \endlink
+</li>
+<li>\link gv_layer_reproject() reproject()  \endlink
+</li>
+<li>\link gv_layer_set_presentation() set_presentation()  \endlink
+</li>
+<li>\link gv_layer_set_visible() set_visible()  \endlink
+</li>
+<li>\link gv_layer_set_visible_temp() set_visible_temp()  \endlink
+</li>
+<li>\link gv_layer_setup() setup()  \endlink
+</li>
+<li>\link gv_layer_teardown() teardown()  \endlink
+</li>
 </ul>
 \par  gv_manager
 <ul>
-<li>\link gv_manager_add_dataset() add_dataset()  \endlink</li>
-<li>\link gv_manager_class_init() class_init()  \endlink</li>
-<li>\link gv_manager_dequeue_task() dequeue_task()  \endlink</li>
-<li>\link gv_manager_dump() dump()  \endlink</li>
-<li>\link gv_manager_get_busy() get_busy()  \endlink</li>
-<li>\link gv_manager_get_dataset() get_dataset()  \endlink</li>
-<li>\link gv_manager_get_dataset_raster() get_dataset_raster()  \endlink</li>
-<li>\link gv_manager_get_preference() get_preference()  \endlink</li>
-<li>\link gv_manager_get_preferences() get_preferences()  \endlink</li>
-<li>\link gv_manager_get_type() get_type()  \endlink</li>
-<li>\link gv_manager_idle_handler() idle_handler()  \endlink</li>
-<li>\link gv_manager_init() init()  \endlink</li>
-<li>\link gv_manager_new() new()  \endlink</li>
-<li>\link gv_manager_queue_task() queue_task()  \endlink</li>
-<li>\link gv_manager_raster_destroy_cb() raster_destroy_cb()  \endlink</li>
-<li>\link gv_manager_set_busy() set_busy()  \endlink</li>
-<li>\link gv_manager_set_preference() set_preference()  \endlink</li>
+<li>\link gv_manager_add_dataset() add_dataset()  \endlink
+</li>
+<li>\link gv_manager_class_init() class_init()  \endlink
+</li>
+<li>\link gv_manager_dequeue_task() dequeue_task()  \endlink
+</li>
+<li>\link gv_manager_dump() dump()  \endlink
+</li>
+<li>\link gv_manager_get_busy() get_busy()  \endlink
+</li>
+<li>\link gv_manager_get_dataset() get_dataset()  \endlink
+</li>
+<li>\link gv_manager_get_dataset_raster() get_dataset_raster()  \endlink
+</li>
+<li>\link gv_manager_get_preference() get_preference()  \endlink
+</li>
+<li>\link gv_manager_get_preferences() get_preferences()  \endlink
+</li>
+<li>\link gv_manager_get_type() get_type()  \endlink
+</li>
+<li>\link gv_manager_idle_handler() idle_handler()  \endlink
+</li>
+<li>\link gv_manager_init() init()  \endlink
+</li>
+<li>\link gv_manager_new() new()  \endlink
+</li>
+<li>\link gv_manager_queue_task() queue_task()  \endlink
+</li>
+<li>\link gv_manager_raster_destroy_cb() raster_destroy_cb()  \endlink
+</li>
+<li>\link gv_manager_set_busy() set_busy()  \endlink
+</li>
+<li>\link gv_manager_set_preference() set_preference()  \endlink
+</li>
 </ul>
 \par  gv_mesh
 <ul>
-<li>\link gv_mesh_add_height() add_height()  \endlink</li>
-<li>\link gv_mesh_build_tex_coord() build_tex_coord()  \endlink</li>
-<li>\link gv_mesh_clamp_height() clamp_height()  \endlink</li>
-<li>\link gv_mesh_class_init() class_init()  \endlink</li>
-<li>\link gv_mesh_dispose() dispose()  \endlink</li>
-<li>\link gv_mesh_extents() extents()  \endlink</li>
-<li>\link gv_mesh_finalize() finalize()  \endlink</li>
-<li>\link gv_mesh_get() get()  \endlink</li>
-<li>\link gv_mesh_get_height() get_height()  \endlink</li>
-<li>\link gv_mesh_get_tile_corner_coords() get_tile_corner_coords()  \endlink</li>
-<li>\link gv_mesh_get_tile_tex_coords() get_tile_tex_coords()  \endlink</li>
-<li>\link gv_mesh_get_type() get_type()  \endlink</li>
-<li>\link gv_mesh_init() init()  \endlink</li>
-<li>\link gv_mesh_new_identity() new_identity()  \endlink</li>
-<li>\link gv_mesh_reset_to_identity() reset_to_identity()  \endlink</li>
-<li>\link gv_mesh_set_transform() set_transform()  \endlink</li>
-<li>\link gv_mesh_tilelist_get() tilelist_get()  \endlink</li>
-<li>\link gv_mesh_tilelist_get_2d() tilelist_get_2d()  \endlink</li>
-<li>\link gv_mesh_tilelist_get_3d() tilelist_get_3d()  \endlink</li>
+<li>\link gv_mesh_add_height() add_height()  \endlink
+</li>
+<li>\link gv_mesh_build_tex_coord() build_tex_coord()  \endlink
+</li>
+<li>\link gv_mesh_clamp_height() clamp_height()  \endlink
+</li>
+<li>\link gv_mesh_class_init() class_init()  \endlink
+</li>
+<li>\link gv_mesh_dispose() dispose()  \endlink
+</li>
+<li>\link gv_mesh_extents() extents()  \endlink
+</li>
+<li>\link gv_mesh_finalize() finalize()  \endlink
+</li>
+<li>\link gv_mesh_get() get()  \endlink
+</li>
+<li>\link gv_mesh_get_height() get_height()  \endlink
+</li>
+<li>\link gv_mesh_get_tile_corner_coords() get_tile_corner_coords()  \endlink
+</li>
+<li>\link gv_mesh_get_tile_tex_coords() get_tile_tex_coords()  \endlink
+</li>
+<li>\link gv_mesh_get_type() get_type()  \endlink
+</li>
+<li>\link gv_mesh_init() init()  \endlink
+</li>
+<li>\link gv_mesh_new_identity() new_identity()  \endlink
+</li>
+<li>\link gv_mesh_reset_to_identity() reset_to_identity()  \endlink
+</li>
+<li>\link gv_mesh_set_transform() set_transform()  \endlink
+</li>
+<li>\link gv_mesh_tilelist_get() tilelist_get()  \endlink
+</li>
+<li>\link gv_mesh_tilelist_get_2d() tilelist_get_2d()  \endlink
+</li>
+<li>\link gv_mesh_tilelist_get_3d() tilelist_get_3d()  \endlink
+</li>
 </ul>
 \par  gv_parse
 <ul>
-<li>\link gv_parse_brush() brush()  \endlink</li>
-<li>\link gv_parse_label() label()  \endlink</li>
-<li>\link gv_parse_pen() pen()  \endlink</li>
-<li>\link gv_parse_symbol() symbol()  \endlink</li>
+<li>\link gv_parse_brush() brush()  \endlink
+</li>
+<li>\link gv_parse_label() label()  \endlink
+</li>
+<li>\link gv_parse_pen() pen()  \endlink
+</li>
+<li>\link gv_parse_symbol() symbol()  \endlink
+</li>
 </ul>
 \par  gv_pquery_layer
 <ul>
-<li>\link gv_pquery_layer_class_init() class_init()  \endlink</li>
-<li>\link gv_pquery_layer_draw() draw()  \endlink</li>
-<li>\link gv_pquery_layer_draw_selected() draw_selected()  \endlink</li>
-<li>\link gv_pquery_layer_draw_shape() draw_shape()  \endlink</li>
-<li>\link gv_pquery_layer_draw_text() draw_text()  \endlink</li>
-<li>\link gv_pquery_layer_get_type() get_type()  \endlink</li>
-<li>\link gv_pquery_layer_init() init()  \endlink</li>
-<li>\link gv_pquery_layer_new() new()  \endlink</li>
-<li>\link gv_pquery_layer_setup() setup()  \endlink</li>
-<li>\link gv_pquery_layer_translate_selected() translate_selected()  \endlink</li>
+<li>\link gv_pquery_layer_class_init() class_init()  \endlink
+</li>
+<li>\link gv_pquery_layer_draw() draw()  \endlink
+</li>
+<li>\link gv_pquery_layer_draw_selected() draw_selected()  \endlink
+</li>
+<li>\link gv_pquery_layer_draw_shape() draw_shape()  \endlink
+</li>
+<li>\link gv_pquery_layer_draw_text() draw_text()  \endlink
+</li>
+<li>\link gv_pquery_layer_get_type() get_type()  \endlink
+</li>
+<li>\link gv_pquery_layer_init() init()  \endlink
+</li>
+<li>\link gv_pquery_layer_new() new()  \endlink
+</li>
+<li>\link gv_pquery_layer_setup() setup()  \endlink
+</li>
+<li>\link gv_pquery_layer_translate_selected() translate_selected()  \endlink
+</li>
 </ul>
-\par  gv_properties
-<ul>
-<li>\link gv_properties_clear() clear()  \endlink</li>
-<li>\link gv_properties_copy() copy()  \endlink</li>
-<li>\link gv_properties_count() count()  \endlink</li>
-<li>\link gv_properties_destroy() destroy()  \endlink</li>
-<li>\link gv_properties_get() get()  \endlink</li>
-<li>\link gv_properties_get_name_by_index() get_name_by_index()  \endlink</li>
-<li>\link gv_properties_get_value_by_index() get_value_by_index()  \endlink</li>
-<li>\link gv_properties_init() init()  \endlink</li>
-<li>\link gv_properties_remove() remove()  \endlink</li>
-<li>\link gv_properties_set() set()  \endlink</li>
-</ul>
+
 \par  gv_raster
 <ul>
-<li>\link gv_raster_autoscale() autoscale()  \endlink</li>
-<li>\link gv_raster_build_poly_transform() build_poly_transform()  \endlink</li>
-<li>\link gv_raster_build_poly_transformCL() build_poly_transformCL()  \endlink</li>
-<li>\link gv_raster_byte_real_average() byte_real_average()  \endlink</li>
-<li>\link gv_raster_byte_real_sample() byte_real_sample()  \endlink</li>
-<li>\link gv_raster_byte_realphase_average() byte_realphase_average()  \endlink</li>
-<li>\link gv_raster_cache_del() cache_del()  \endlink</li>
-<li>\link gv_raster_cache_flush_all() cache_flush_all()  \endlink</li>
-<li>\link gv_raster_cache_free() cache_free()  \endlink</li>
-<li>\link gv_raster_cache_get() cache_get()  \endlink</li>
-<li>\link gv_raster_cache_get_best_lod() cache_get_best_lod()  \endlink</li>
-<li>\link gv_raster_cache_get_max() cache_get_max()  \endlink</li>
-<li>\link gv_raster_cache_get_used() cache_get_used()  \endlink</li>
-<li>\link gv_raster_cache_new() cache_new()  \endlink</li>
-<li>\link gv_raster_cache_purge_lru() cache_purge_lru()  \endlink</li>
-<li>\link gv_raster_cache_put() cache_put()  \endlink</li>
-<li>\link gv_raster_cache_set_max() cache_set_max()  \endlink</li>
-<li>\link gv_raster_cache_tile_touch() cache_tile_touch()  \endlink</li>
-<li>\link gv_raster_changed() changed()  \endlink</li>
-<li>\link gv_raster_check_poly_order() check_poly_order()  \endlink</li>
-<li>\link gv_raster_class_init() class_init()  \endlink</li>
-<li>\link gv_raster_collect_histogram() collect_histogram()  \endlink</li>
-<li>\link gv_raster_collect_random_sample() collect_random_sample()  \endlink</li>
-<li>\link gv_raster_del_memento() del_memento()  \endlink</li>
-<li>\link gv_raster_dispose() dispose()  \endlink</li>
-<li>\link gv_raster_finalize() finalize()  \endlink</li>
-<li>\link gv_raster_float_complex_average() float_complex_average()  \endlink</li>
-<li>\link gv_raster_float_complex_sample() float_complex_sample()  \endlink</li>
-<li>\link gv_raster_float_real_average() float_real_average()  \endlink</li>
-<li>\link gv_raster_float_real_average_nodata() float_real_average_nodata()  \endlink</li>
-<li>\link gv_raster_float_real_sample() float_real_sample()  \endlink</li>
-<li>\link gv_raster_flush_cache() flush_cache()  \endlink</li>
-<li>\link gv_raster_georef_to_pixel() georef_to_pixel()  \endlink</li>
-<li>\link gv_raster_georef_to_pixelCL() georef_to_pixelCL()  \endlink</li>
-<li>\link gv_raster_get_dataset() get_dataset()  \endlink</li>
-<li>\link gv_raster_get_gcp_count() get_gcp_count()  \endlink</li>
-<li>\link gv_raster_get_gcp_countCL() get_gcp_countCL()  \endlink</li>
-<li>\link gv_raster_get_gcps() get_gcps()  \endlink</li>
-<li>\link gv_raster_get_gcpsCL() get_gcpsCL()  \endlink</li>
-<li>\link gv_raster_get_memento() get_memento()  \endlink</li>
-<li>\link gv_raster_get_nodata() get_nodata()  \endlink</li>
-<li>\link gv_raster_get_sample() get_sample()  \endlink</li>
-<li>\link gv_raster_get_type() get_type()  \endlink</li>
-<li>\link gv_raster_init() init()  \endlink</li>
-<li>\link gv_raster_new() new()  \endlink</li>
-<li>\link gv_raster_pixel_size() pixel_size()  \endlink</li>
-<li>\link gv_raster_pixel_to_georef() pixel_to_georef()  \endlink</li>
-<li>\link gv_raster_pixel_to_georefCL() pixel_to_georefCL()  \endlink</li>
-<li>\link gv_raster_rasterize_shapes() rasterize_shapes()  \endlink</li>
-<li>\link gv_raster_read() read()  \endlink</li>
-<li>\link gv_raster_set_gcps() set_gcps()  \endlink</li>
-<li>\link gv_raster_set_gcpsCL() set_gcpsCL()  \endlink</li>
-<li>\link gv_raster_set_memento() set_memento()  \endlink</li>
-<li>\link gv_raster_set_poly_order_preference() set_poly_order_preference()  \endlink</li>
-<li>\link gv_raster_tile_get() tile_get()  \endlink</li>
-<li>\link gv_raster_tile_get_gdal() tile_get_gdal()  \endlink</li>
-<li>\link gv_raster_tile_xy_get() tile_xy_get()  \endlink</li>
+<li>\link gv_raster_autoscale() autoscale()  \endlink
+</li>
+<li>\link gv_raster_build_poly_transform() build_poly_transform()  \endlink
+</li>
+<li>\link gv_raster_build_poly_transformCL() build_poly_transformCL()  \endlink
+</li>
+<li>\link gv_raster_byte_real_average() byte_real_average()  \endlink
+</li>
+<li>\link gv_raster_byte_real_sample() byte_real_sample()  \endlink
+</li>
+<li>\link gv_raster_byte_realphase_average() byte_realphase_average()  \endlink
+</li>
+<li>\link gv_raster_cache_del() cache_del()  \endlink
+</li>
+<li>\link gv_raster_cache_flush_all() cache_flush_all()  \endlink
+</li>
+<li>\link gv_raster_cache_free() cache_free()  \endlink
+</li>
+<li>\link gv_raster_cache_get() cache_get()  \endlink
+</li>
+<li>\link gv_raster_cache_get_best_lod() cache_get_best_lod()  \endlink
+</li>
+<li>\link gv_raster_cache_get_max() cache_get_max()  \endlink
+</li>
+<li>\link gv_raster_cache_get_used() cache_get_used()  \endlink
+</li>
+<li>\link gv_raster_cache_new() cache_new()  \endlink
+</li>
+<li>\link gv_raster_cache_purge_lru() cache_purge_lru()  \endlink
+</li>
+<li>\link gv_raster_cache_put() cache_put()  \endlink
+</li>
+<li>\link gv_raster_cache_set_max() cache_set_max()  \endlink
+</li>
+<li>\link gv_raster_cache_tile_touch() cache_tile_touch()  \endlink
+</li>
+<li>\link gv_raster_changed() changed()  \endlink
+</li>
+<li>\link gv_raster_check_poly_order() check_poly_order()  \endlink
+</li>
+<li>\link gv_raster_class_init() class_init()  \endlink
+</li>
+<li>\link gv_raster_collect_histogram() collect_histogram()  \endlink
+</li>
+<li>\link gv_raster_collect_random_sample() collect_random_sample()  \endlink
+</li>
+<li>\link gv_raster_del_memento() del_memento()  \endlink
+</li>
+<li>\link gv_raster_dispose() dispose()  \endlink
+</li>
+<li>\link gv_raster_finalize() finalize()  \endlink
+</li>
+<li>\link gv_raster_float_complex_average() float_complex_average()  \endlink
+</li>
+<li>\link gv_raster_float_complex_sample() float_complex_sample()  \endlink
+</li>
+<li>\link gv_raster_float_real_average() float_real_average()  \endlink
+</li>
+<li>\link gv_raster_float_real_average_nodata() float_real_average_nodata()  \endlink
+</li>
+<li>\link gv_raster_float_real_sample() float_real_sample()  \endlink
+</li>
+<li>\link gv_raster_flush_cache() flush_cache()  \endlink
+</li>
+<li>\link gv_raster_georef_to_pixel() georef_to_pixel()  \endlink
+</li>
+<li>\link gv_raster_georef_to_pixelCL() georef_to_pixelCL()  \endlink
+</li>
+<li>\link gv_raster_get_dataset() get_dataset()  \endlink
+</li>
+<li>\link gv_raster_get_gcp_count() get_gcp_count()  \endlink
+</li>
+<li>\link gv_raster_get_gcp_countCL() get_gcp_countCL()  \endlink
+</li>
+<li>\link gv_raster_get_gcps() get_gcps()  \endlink
+</li>
+<li>\link gv_raster_get_gcpsCL() get_gcpsCL()  \endlink
+</li>
+<li>\link gv_raster_get_memento() get_memento()  \endlink
+</li>
+<li>\link gv_raster_get_nodata() get_nodata()  \endlink
+</li>
+<li>\link gv_raster_get_sample() get_sample()  \endlink
+</li>
+<li>\link gv_raster_get_type() get_type()  \endlink
+</li>
+<li>\link gv_raster_init() init()  \endlink
+</li>
+<li>\link gv_raster_new() new()  \endlink
+</li>
+<li>\link gv_raster_pixel_size() pixel_size()  \endlink
+</li>
+<li>\link gv_raster_pixel_to_georef() pixel_to_georef()  \endlink
+</li>
+<li>\link gv_raster_pixel_to_georefCL() pixel_to_georefCL()  \endlink
+</li>
+<li>\link gv_raster_rasterize_shapes() rasterize_shapes()  \endlink
+</li>
+<li>\link gv_raster_read() read()  \endlink
+</li>
+<li>\link gv_raster_set_gcps() set_gcps()  \endlink
+</li>
+<li>\link gv_raster_set_gcpsCL() set_gcpsCL()  \endlink
+</li>
+<li>\link gv_raster_set_memento() set_memento()  \endlink
+</li>
+<li>\link gv_raster_set_poly_order_preference() set_poly_order_preference()  \endlink
+</li>
+<li>\link gv_raster_tile_get() tile_get()  \endlink
+</li>
+<li>\link gv_raster_tile_get_gdal() tile_get_gdal()  \endlink
+</li>
+<li>\link gv_raster_tile_xy_get() tile_xy_get()  \endlink
+</li>
 </ul>
 \par  gv_raster_layer
 <ul>
-<li>\link gv_raster_layer_add_height() add_height()  \endlink</li>
-<li>\link gv_raster_layer_alpha_get() alpha_get()  \endlink</li>
-<li>\link gv_raster_layer_alpha_set() alpha_set()  \endlink</li>
-<li>\link gv_raster_layer_apply_gdal_color_table() apply_gdal_color_table()  \endlink</li>
-<li>\link gv_raster_layer_autoscale_view() autoscale_view()  \endlink</li>
-<li>\link gv_raster_layer_blend_mode_get() blend_mode_get()  \endlink</li>
-<li>\link gv_raster_layer_blend_mode_set() blend_mode_set()  \endlink</li>
-<li>\link gv_raster_layer_clamp_height() clamp_height()  \endlink</li>
-<li>\link gv_raster_layer_class_init() class_init()  \endlink</li>
-<li>\link gv_raster_layer_cleanup_idle() cleanup_idle()  \endlink</li>
-<li>\link gv_raster_layer_create_texture() create_texture()  \endlink</li>
-<li>\link gv_raster_layer_dispose() dispose()  \endlink</li>
-<li>\link gv_raster_layer_draw() draw()  \endlink</li>
-<li>\link gv_raster_layer_extents() extents()  \endlink</li>
-<li>\link gv_raster_layer_finalize() finalize()  \endlink</li>
-<li>\link gv_raster_layer_get_const_value() get_const_value()  \endlink</li>
-<li>\link gv_raster_layer_get_data() get_data()  \endlink</li>
-<li>\link gv_raster_layer_get_mode() get_mode()  \endlink</li>
-<li>\link gv_raster_layer_get_type() get_type()  \endlink</li>
-<li>\link gv_raster_layer_gl_disp_set() gl_disp_set()  \endlink</li>
-<li>\link gv_raster_layer_gl_disp_unset() gl_disp_unset()  \endlink</li>
-<li>\link gv_raster_layer_gltile_complex() gltile_complex()  \endlink</li>
-<li>\link gv_raster_layer_gltile_get() gltile_get()  \endlink</li>
-<li>\link gv_raster_layer_gltile_psci() gltile_psci()  \endlink</li>
-<li>\link gv_raster_layer_gltile_rgba() gltile_rgba()  \endlink</li>
-<li>\link gv_raster_layer_gltile_single() gltile_single()  \endlink</li>
-<li>\link gv_raster_layer_histogram_view() histogram_view()  \endlink</li>
-<li>\link gv_raster_layer_idle_handler() idle_handler()  \endlink</li>
-<li>\link gv_raster_layer_init() init()  \endlink</li>
-<li>\link gv_raster_layer_lut_color_wheel_1d_new() lut_color_wheel_1d_new()  \endlink</li>
-<li>\link gv_raster_layer_lut_color_wheel_new() lut_color_wheel_new()  \endlink</li>
-<li>\link gv_raster_layer_lut_color_wheel_new_ev() lut_color_wheel_new_ev()  \endlink</li>
-<li>\link gv_raster_layer_lut_compose() lut_compose()  \endlink</li>
-<li>\link gv_raster_layer_lut_get() lut_get()  \endlink</li>
-<li>\link gv_raster_layer_lut_hsv_to_rgb() lut_hsv_to_rgb()  \endlink</li>
-<li>\link gv_raster_layer_lut_interpolate() lut_interpolate()  \endlink</li>
-<li>\link gv_raster_layer_lut_interpolated_new() lut_interpolated_new()  \endlink</li>
-<li>\link gv_raster_layer_lut_put() lut_put()  \endlink</li>
-<li>\link gv_raster_layer_lut_type_get() lut_type_get()  \endlink</li>
-<li>\link gv_raster_layer_max_get() max_get()  \endlink</li>
-<li>\link gv_raster_layer_max_set() max_set()  \endlink</li>
-<li>\link gv_raster_layer_min_get() min_get()  \endlink</li>
-<li>\link gv_raster_layer_min_set() min_set()  \endlink</li>
-<li>\link gv_raster_layer_mode_get() mode_get()  \endlink</li>
-<li>\link gv_raster_layer_new() new()  \endlink</li>
-<li>\link gv_raster_layer_nodata_get() nodata_get()  \endlink</li>
-<li>\link gv_raster_layer_nodata_set() nodata_set()  \endlink</li>
-<li>\link gv_raster_layer_pixel_size() pixel_size()  \endlink</li>
-<li>\link gv_raster_layer_pixel_to_view() pixel_to_view()  \endlink</li>
-<li>\link gv_raster_layer_purge_all_textures() purge_all_textures()  \endlink</li>
-<li>\link gv_raster_layer_purge_texture() purge_texture()  \endlink</li>
-<li>\link gv_raster_layer_raster_changed() raster_changed()  \endlink</li>
-<li>\link gv_raster_layer_raster_geotransform_changed() raster_geotransform_changed()  \endlink</li>
-<li>\link gv_raster_layer_read() read()  \endlink</li>
-<li>\link gv_raster_layer_refresh_mesh() refresh_mesh()  \endlink</li>
-<li>\link gv_raster_layer_reproject() reproject()  \endlink</li>
-<li>\link gv_raster_layer_reset_texture() reset_texture()  \endlink</li>
-<li>\link gv_raster_layer_set_raw() set_raw()  \endlink</li>
-<li>\link gv_raster_layer_set_source() set_source()  \endlink</li>
-<li>\link gv_raster_layer_setup() setup()  \endlink</li>
-<li>\link gv_raster_layer_source_get_lut() source_get_lut()  \endlink</li>
-<li>\link gv_raster_layer_srctile_check_nodata() srctile_check_nodata()  \endlink</li>
-<li>\link gv_raster_layer_srctile_xy_get() srctile_xy_get()  \endlink</li>
-<li>\link gv_raster_layer_state_changed() state_changed()  \endlink</li>
-<li>\link gv_raster_layer_teardown() teardown()  \endlink</li>
-<li>\link gv_raster_layer_texture_clamp_set() texture_clamp_set()  \endlink</li>
-<li>\link gv_raster_layer_texture_load() texture_load()  \endlink</li>
-<li>\link gv_raster_layer_texture_mode_get() texture_mode_get()  \endlink</li>
-<li>\link gv_raster_layer_texture_mode_set() texture_mode_set()  \endlink</li>
-<li>\link gv_raster_layer_texture_size() texture_size()  \endlink</li>
-<li>\link gv_raster_layer_touch_texture() touch_texture()  \endlink</li>
-<li>\link gv_raster_layer_type_get() type_get()  \endlink</li>
-<li>\link gv_raster_layer_view_extents() view_extents()  \endlink</li>
-<li>\link gv_raster_layer_view_to_pixel() view_to_pixel()  \endlink</li>
-<li>\link gv_raster_layer_zoom_get() zoom_get()  \endlink</li>
-<li>\link gv_raster_layer_zoom_set() zoom_set()  \endlink</li>
+<li>\link gv_raster_layer_add_height() add_height()  \endlink
+</li>
+<li>\link gv_raster_layer_alpha_get() alpha_get()  \endlink
+</li>
+<li>\link gv_raster_layer_alpha_set() alpha_set()  \endlink
+</li>
+<li>\link gv_raster_layer_apply_gdal_color_table() apply_gdal_color_table()  \endlink
+</li>
+<li>\link gv_raster_layer_autoscale_view() autoscale_view()  \endlink
+</li>
+<li>\link gv_raster_layer_blend_mode_get() blend_mode_get()  \endlink
+</li>
+<li>\link gv_raster_layer_blend_mode_set() blend_mode_set()  \endlink
+</li>
+<li>\link gv_raster_layer_clamp_height() clamp_height()  \endlink
+</li>
+<li>\link gv_raster_layer_class_init() class_init()  \endlink
+</li>
+<li>\link gv_raster_layer_cleanup_idle() cleanup_idle()  \endlink
+</li>
+<li>\link gv_raster_layer_create_texture() create_texture()  \endlink
+</li>
+<li>\link gv_raster_layer_dispose() dispose()  \endlink
+</li>
+<li>\link gv_raster_layer_draw() draw()  \endlink
+</li>
+<li>\link gv_raster_layer_extents() extents()  \endlink
+</li>
+<li>\link gv_raster_layer_finalize() finalize()  \endlink
+</li>
+<li>\link gv_raster_layer_get_const_value() get_const_value()  \endlink
+</li>
+<li>\link gv_raster_layer_get_data() get_data()  \endlink
+</li>
+<li>\link gv_raster_layer_get_mode() get_mode()  \endlink
+</li>
+<li>\link gv_raster_layer_get_type() get_type()  \endlink
+</li>
+<li>\link gv_raster_layer_gl_disp_set() gl_disp_set()  \endlink
+</li>
+<li>\link gv_raster_layer_gl_disp_unset() gl_disp_unset()  \endlink
+</li>
+<li>\link gv_raster_layer_gltile_complex() gltile_complex()  \endlink
+</li>
+<li>\link gv_raster_layer_gltile_get() gltile_get()  \endlink
+</li>
+<li>\link gv_raster_layer_gltile_psci() gltile_psci()  \endlink
+</li>
+<li>\link gv_raster_layer_gltile_rgba() gltile_rgba()  \endlink
+</li>
+<li>\link gv_raster_layer_gltile_single() gltile_single()  \endlink
+</li>
+<li>\link gv_raster_layer_histogram_view() histogram_view()  \endlink
+</li>
+<li>\link gv_raster_layer_idle_handler() idle_handler()  \endlink
+</li>
+<li>\link gv_raster_layer_init() init()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_color_wheel_1d_new() lut_color_wheel_1d_new()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_color_wheel_new() lut_color_wheel_new()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_color_wheel_new_ev() lut_color_wheel_new_ev()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_compose() lut_compose()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_get() lut_get()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_hsv_to_rgb() lut_hsv_to_rgb()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_interpolate() lut_interpolate()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_interpolated_new() lut_interpolated_new()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_put() lut_put()  \endlink
+</li>
+<li>\link gv_raster_layer_lut_type_get() lut_type_get()  \endlink
+</li>
+<li>\link gv_raster_layer_max_get() max_get()  \endlink
+</li>
+<li>\link gv_raster_layer_max_set() max_set()  \endlink
+</li>
+<li>\link gv_raster_layer_min_get() min_get()  \endlink
+</li>
+<li>\link gv_raster_layer_min_set() min_set()  \endlink
+</li>
+<li>\link gv_raster_layer_mode_get() mode_get()  \endlink
+</li>
+<li>\link gv_raster_layer_new() new()  \endlink
+</li>
+<li>\link gv_raster_layer_nodata_get() nodata_get()  \endlink
+</li>
+<li>\link gv_raster_layer_nodata_set() nodata_set()  \endlink
+</li>
+<li>\link gv_raster_layer_pixel_size() pixel_size()  \endlink
+</li>
+<li>\link gv_raster_layer_pixel_to_view() pixel_to_view()  \endlink
+</li>
+<li>\link gv_raster_layer_purge_all_textures() purge_all_textures()  \endlink
+</li>
+<li>\link gv_raster_layer_purge_texture() purge_texture()  \endlink
+</li>
+<li>\link gv_raster_layer_raster_changed() raster_changed()  \endlink
+</li>
+<li>\link gv_raster_layer_raster_geotransform_changed() raster_geotransform_changed()  \endlink
+</li>
+<li>\link gv_raster_layer_read() read()  \endlink
+</li>
+<li>\link gv_raster_layer_refresh_mesh() refresh_mesh()  \endlink
+</li>
+<li>\link gv_raster_layer_reproject() reproject()  \endlink
+</li>
+<li>\link gv_raster_layer_reset_texture() reset_texture()  \endlink
+</li>
+<li>\link gv_raster_layer_set_raw() set_raw()  \endlink
+</li>
+<li>\link gv_raster_layer_set_source() set_source()  \endlink
+</li>
+<li>\link gv_raster_layer_setup() setup()  \endlink
+</li>
+<li>\link gv_raster_layer_source_get_lut() source_get_lut()  \endlink
+</li>
+<li>\link gv_raster_layer_srctile_check_nodata() srctile_check_nodata()  \endlink
+</li>
+<li>\link gv_raster_layer_srctile_xy_get() srctile_xy_get()  \endlink
+</li>
+<li>\link gv_raster_layer_state_changed() state_changed()  \endlink
+</li>
+<li>\link gv_raster_layer_teardown() teardown()  \endlink
+</li>
+<li>\link gv_raster_layer_texture_clamp_set() texture_clamp_set()  \endlink
+</li>
+<li>\link gv_raster_layer_texture_load() texture_load()  \endlink
+</li>
+<li>\link gv_raster_layer_texture_mode_get() texture_mode_get()  \endlink
+</li>
+<li>\link gv_raster_layer_texture_mode_set() texture_mode_set()  \endlink
+</li>
+<li>\link gv_raster_layer_texture_size() texture_size()  \endlink
+</li>
+<li>\link gv_raster_layer_touch_texture() touch_texture()  \endlink
+</li>
+<li>\link gv_raster_layer_type_get() type_get()  \endlink
+</li>
+<li>\link gv_raster_layer_view_extents() view_extents()  \endlink
+</li>
+<li>\link gv_raster_layer_view_to_pixel() view_to_pixel()  \endlink
+</li>
+<li>\link gv_raster_layer_zoom_get() zoom_get()  \endlink
+</li>
+<li>\link gv_raster_layer_zoom_set() zoom_set()  \endlink
+</li>
 </ul>
 \par  gv_raster_lut
 <ul>
-<li>\link gv_raster_lut_create_from_byte_lut() create_from_byte_lut()  \endlink</li>
-<li>\link gv_raster_lut_free() free()  \endlink</li>
-<li>\link gv_raster_lut_print() print()  \endlink</li>
+<li>\link gv_raster_lut_create_from_byte_lut() create_from_byte_lut()  \endlink
+</li>
+<li>\link gv_raster_lut_free() free()  \endlink
+</li>
+<li>\link gv_raster_lut_print() print()  \endlink
+</li>
 </ul>
 \par  gv_rasterize
 <ul>
-<li>\link gv_rasterize_new_one_shape() new_one_shape()  \endlink</li>
-<li>\link gv_rasterize_one_shape() one_shape()  \endlink</li>
+<li>\link gv_rasterize_new_one_shape() new_one_shape()  \endlink
+</li>
+<li>\link gv_rasterize_one_shape() one_shape()  \endlink
+</li>
 </ul>
 \par  gv_scale
 <ul>
-<li>\link gv_scale_pure_phase_tile_to_byte() pure_phase_tile_to_byte()  \endlink</li>
-<li>\link gv_scale_tile_linear() tile_linear()  \endlink</li>
-<li>\link gv_scale_tile_to_byte() tile_to_byte()  \endlink</li>
+<li>\link gv_scale_pure_phase_tile_to_byte() pure_phase_tile_to_byte()  \endlink
+</li>
+<li>\link gv_scale_tile_linear() tile_linear()  \endlink
+</li>
+<li>\link gv_scale_tile_to_byte() tile_to_byte()  \endlink
+</li>
 </ul>
 \par  gv_shape
 <ul>
-<li>\link gv_shape_add_node() add_node()  \endlink</li>
-<li>\link gv_shape_add_ring_from_xml() add_ring_from_xml()  \endlink</li>
-<li>\link gv_shape_clip_to_rect() clip_to_rect()  \endlink</li>
-<li>\link gv_shape_collection_add_shape() collection_add_shape()  \endlink</li>
-<li>\link gv_shape_collection_get_count() collection_get_count()  \endlink</li>
-<li>\link gv_shape_collection_get_shape() collection_get_shape()  \endlink</li>
-<li>\link gv_shape_copy() copy()  \endlink</li>
-<li>\link gv_shape_delete() delete()  \endlink</li>
-<li>\link gv_shape_delete_node() delete_node()  \endlink</li>
-<li>\link gv_shape_delete_ring() delete_ring()  \endlink</li>
-<li>\link gv_shape_distance_from_polygon() distance_from_polygon()  \endlink</li>
-<li>\link gv_shape_from_xml_tree() from_xml_tree()  \endlink</li>
-<li>\link gv_shape_get_center() get_center()  \endlink</li>
-<li>\link gv_shape_get_count() get_count()  \endlink</li>
-<li>\link gv_shape_get_extents() get_extents()  \endlink</li>
-<li>\link gv_shape_get_nodes() get_nodes()  \endlink</li>
-<li>\link gv_shape_get_ref() get_ref()  \endlink</li>
-<li>\link gv_shape_get_rings() get_rings()  \endlink</li>
-<li>\link gv_shape_get_xyz() get_xyz()  \endlink</li>
-<li>\link gv_shape_insert_node() insert_node()  \endlink</li>
-<li>\link gv_shape_new() new()  \endlink</li>
-<li>\link gv_shape_point_in_polygon() point_in_polygon()  \endlink</li>
-<li>\link gv_shape_property_from_xml() property_from_xml()  \endlink</li>
-<li>\link gv_shape_ref() ref()  \endlink</li>
-<li>\link gv_shape_rotate() rotate()  \endlink</li>
-<li>\link gv_shape_scale() scale()  \endlink</li>
-<li>\link gv_shape_set_xyz() set_xyz()  \endlink</li>
-<li>\link gv_shape_to_xml_tree() to_xml_tree()  \endlink</li>
-<li>\link gv_shape_unref() unref()  \endlink</li>
-<li>\link gv_shape_update_attribute() update_attribute()  \endlink</li>
+<li>\link gv_shape_add_node() add_node()  \endlink
+</li>
+<li>\link gv_shape_add_ring_from_xml() add_ring_from_xml()  \endlink
+</li>
+<li>\link gv_shape_clip_to_rect() clip_to_rect()  \endlink
+</li>
+<li>\link gv_shape_collection_add_shape() collection_add_shape()  \endlink
+</li>
+<li>\link gv_shape_collection_get_count() collection_get_count()  \endlink
+</li>
+<li>\link gv_shape_collection_get_shape() collection_get_shape()  \endlink
+</li>
+<li>\link gv_shape_copy() copy()  \endlink
+</li>
+<li>\link gv_shape_delete() delete()  \endlink
+</li>
+<li>\link gv_shape_delete_node() delete_node()  \endlink
+</li>
+<li>\link gv_shape_delete_ring() delete_ring()  \endlink
+</li>
+<li>\link gv_shape_distance_from_polygon() distance_from_polygon()  \endlink
+</li>
+<li>\link gv_shape_from_xml_tree() from_xml_tree()  \endlink
+</li>
+<li>\link gv_shape_get_center() get_center()  \endlink
+</li>
+<li>\link gv_shape_get_count() get_count()  \endlink
+</li>
+<li>\link gv_shape_get_extents() get_extents()  \endlink
+</li>
+<li>\link gv_shape_get_nodes() get_nodes()  \endlink
+</li>
+<li>\link gv_shape_get_ref() get_ref()  \endlink
+</li>
+<li>\link gv_shape_get_rings() get_rings()  \endlink
+</li>
+<li>\link gv_shape_get_xyz() get_xyz()  \endlink
+</li>
+<li>\link gv_shape_insert_node() insert_node()  \endlink
+</li>
+<li>\link gv_shape_new() new()  \endlink
+</li>
+<li>\link gv_shape_point_in_polygon() point_in_polygon()  \endlink
+</li>
+<li>\link gv_shape_property_from_xml() property_from_xml()  \endlink
+</li>
+<li>\link gv_shape_ref() ref()  \endlink
+</li>
+<li>\link gv_shape_rotate() rotate()  \endlink
+</li>
+<li>\link gv_shape_scale() scale()  \endlink
+</li>
+<li>\link gv_shape_set_xyz() set_xyz()  \endlink
+</li>
+<li>\link gv_shape_to_xml_tree() to_xml_tree()  \endlink
+</li>
+<li>\link gv_shape_unref() unref()  \endlink
+</li>
+<li>\link gv_shape_update_attribute() update_attribute()  \endlink
+</li>
 </ul>
 \par  gv_shape_layer
 <ul>
-<li>\link gv_shape_layer_add_part() add_part()  \endlink</li>
-<li>\link gv_shape_layer_build_renderinfo() build_renderinfo()  \endlink</li>
-<li>\link gv_shape_layer_chain_part() chain_part()  \endlink</li>
-<li>\link gv_shape_layer_class_init() class_init()  \endlink</li>
-<li>\link gv_shape_layer_clear_all_renderinfo() clear_all_renderinfo()  \endlink</li>
-<li>\link gv_shape_layer_clear_part() clear_part()  \endlink</li>
-<li>\link gv_shape_layer_clear_selection() clear_selection()  \endlink</li>
-<li>\link gv_shape_layer_clear_shape_parts() clear_shape_parts()  \endlink</li>
-<li>\link gv_shape_layer_create_part() create_part()  \endlink</li>
-<li>\link gv_shape_layer_delete_node() delete_node()  \endlink</li>
-<li>\link gv_shape_layer_delete_selected() delete_selected()  \endlink</li>
-<li>\link gv_shape_layer_deselect_shape() deselect_shape()  \endlink</li>
-<li>\link gv_shape_layer_draw_selected() draw_selected()  \endlink</li>
-<li>\link gv_shape_layer_finalize() finalize()  \endlink</li>
-<li>\link gv_shape_layer_get_first_part_index() get_first_part_index()  \endlink</li>
-<li>\link gv_shape_layer_get_node() get_node()  \endlink</li>
-<li>\link gv_shape_layer_get_part() get_part()  \endlink</li>
-<li>\link gv_shape_layer_get_scale_dep() get_scale_dep()  \endlink</li>
-<li>\link gv_shape_layer_get_selected() get_selected()  \endlink</li>
-<li>\link gv_shape_layer_get_subselection() get_subselection()  \endlink</li>
-<li>\link gv_shape_layer_get_type() get_type()  \endlink</li>
-<li>\link gv_shape_layer_init() init()  \endlink</li>
-<li>\link gv_shape_layer_initialize_renderindex() initialize_renderindex()  \endlink</li>
-<li>\link gv_shape_layer_insert_node() insert_node()  \endlink</li>
-<li>\link gv_shape_layer_is_selected() is_selected()  \endlink</li>
-<li>\link gv_shape_layer_move_node() move_node()  \endlink</li>
-<li>\link gv_shape_layer_node_motion() node_motion()  \endlink</li>
-<li>\link gv_shape_layer_pick_node() pick_node()  \endlink</li>
-<li>\link gv_shape_layer_pick_shape() pick_shape()  \endlink</li>
-<li>\link gv_shape_layer_select_all() select_all()  \endlink</li>
-<li>\link gv_shape_layer_select_region() select_region()  \endlink</li>
-<li>\link gv_shape_layer_select_shape() select_shape()  \endlink</li>
-<li>\link gv_shape_layer_selected() selected()  \endlink</li>
-<li>\link gv_shape_layer_selected_motion() selected_motion()  \endlink</li>
-<li>\link gv_shape_layer_selection_changed() selection_changed()  \endlink</li>
-<li>\link gv_shape_layer_set_color() set_color()  \endlink</li>
-<li>\link gv_shape_layer_set_num_shapes() set_num_shapes()  \endlink</li>
-<li>\link gv_shape_layer_set_scale_dep() set_scale_dep()  \endlink</li>
-<li>\link gv_shape_layer_subselect_shape() subselect_shape()  \endlink</li>
-<li>\link gv_shape_layer_subselection_changed() subselection_changed()  \endlink</li>
-<li>\link gv_shape_layer_translate_selected() translate_selected()  \endlink</li>
-<li>\link gv_shape_layer_update_renderinfo() update_renderinfo()  \endlink</li>
+<li>\link gv_shape_layer_add_part() add_part()  \endlink
+</li>
+<li>\link gv_shape_layer_build_renderinfo() build_renderinfo()  \endlink
+</li>
+<li>\link gv_shape_layer_chain_part() chain_part()  \endlink
+</li>
+<li>\link gv_shape_layer_class_init() class_init()  \endlink
+</li>
+<li>\link gv_shape_layer_clear_all_renderinfo() clear_all_renderinfo()  \endlink
+</li>
+<li>\link gv_shape_layer_clear_part() clear_part()  \endlink
+</li>
+<li>\link gv_shape_layer_clear_selection() clear_selection()  \endlink
+</li>
+<li>\link gv_shape_layer_clear_shape_parts() clear_shape_parts()  \endlink
+</li>
+<li>\link gv_shape_layer_create_part() create_part()  \endlink
+</li>
+<li>\link gv_shape_layer_delete_node() delete_node()  \endlink
+</li>
+<li>\link gv_shape_layer_delete_selected() delete_selected()  \endlink
+</li>
+<li>\link gv_shape_layer_deselect_shape() deselect_shape()  \endlink
+</li>
+<li>\link gv_shape_layer_draw_selected() draw_selected()  \endlink
+</li>
+<li>\link gv_shape_layer_finalize() finalize()  \endlink
+</li>
+<li>\link gv_shape_layer_get_first_part_index() get_first_part_index()  \endlink
+</li>
+<li>\link gv_shape_layer_get_node() get_node()  \endlink
+</li>
+<li>\link gv_shape_layer_get_part() get_part()  \endlink
+</li>
+<li>\link gv_shape_layer_get_scale_dep() get_scale_dep()  \endlink
+</li>
+<li>\link gv_shape_layer_get_selected() get_selected()  \endlink
+</li>
+<li>\link gv_shape_layer_get_subselection() get_subselection()  \endlink
+</li>
+<li>\link gv_shape_layer_get_type() get_type()  \endlink
+</li>
+<li>\link gv_shape_layer_init() init()  \endlink
+</li>
+<li>\link gv_shape_layer_initialize_renderindex() initialize_renderindex()  \endlink
+</li>
+<li>\link gv_shape_layer_insert_node() insert_node()  \endlink
+</li>
+<li>\link gv_shape_layer_is_selected() is_selected()  \endlink
+</li>
+<li>\link gv_shape_layer_move_node() move_node()  \endlink
+</li>
+<li>\link gv_shape_layer_node_motion() node_motion()  \endlink
+</li>
+<li>\link gv_shape_layer_pick_node() pick_node()  \endlink
+</li>
+<li>\link gv_shape_layer_pick_shape() pick_shape()  \endlink
+</li>
+<li>\link gv_shape_layer_select_all() select_all()  \endlink
+</li>
+<li>\link gv_shape_layer_select_region() select_region()  \endlink
+</li>
+<li>\link gv_shape_layer_select_shape() select_shape()  \endlink
+</li>
+<li>\link gv_shape_layer_selected() selected()  \endlink
+</li>
+<li>\link gv_shape_layer_selected_motion() selected_motion()  \endlink
+</li>
+<li>\link gv_shape_layer_selection_changed() selection_changed()  \endlink
+</li>
+<li>\link gv_shape_layer_set_color() set_color()  \endlink
+</li>
+<li>\link gv_shape_layer_set_num_shapes() set_num_shapes()  \endlink
+</li>
+<li>\link gv_shape_layer_set_scale_dep() set_scale_dep()  \endlink
+</li>
+<li>\link gv_shape_layer_subselect_shape() subselect_shape()  \endlink
+</li>
+<li>\link gv_shape_layer_subselection_changed() subselection_changed()  \endlink
+</li>
+<li>\link gv_shape_layer_translate_selected() translate_selected()  \endlink
+</li>
+<li>\link gv_shape_layer_update_renderinfo() update_renderinfo()  \endlink
+</li>
 </ul>
 \par  gv_shapes
 <ul>
-<li>\link gv_shapes_add_height() add_height()  \endlink</li>
-<li>\link gv_shapes_add_shape() add_shape()  \endlink</li>
-<li>\link gv_shapes_add_shape_last() add_shape_last()  \endlink</li>
-<li>\link gv_shapes_changed() changed()  \endlink</li>
-<li>\link gv_shapes_class_init() class_init()  \endlink</li>
-<li>\link gv_shapes_del_memento() del_memento()  \endlink</li>
-<li>\link gv_shapes_delete_shapes() delete_shapes()  \endlink</li>
-<li>\link gv_shapes_finalize() finalize()  \endlink</li>
-<li>\link gv_shapes_from_ogr() from_ogr()  \endlink</li>
-<li>\link gv_shapes_from_ogr_layer() from_ogr_layer()  \endlink</li>
-<li>\link gv_shapes_from_shapefile() from_shapefile()  \endlink</li>
-<li>\link gv_shapes_get_extents() get_extents()  \endlink</li>
-<li>\link gv_shapes_get_memento() get_memento()  \endlink</li>
-<li>\link gv_shapes_get_type() get_type()  \endlink</li>
-<li>\link gv_shapes_init() init()  \endlink</li>
-<li>\link gv_shapes_insert_shapes() insert_shapes()  \endlink</li>
-<li>\link gv_shapes_new() new()  \endlink</li>
-<li>\link gv_shapes_read_from_file() read_from_file()  \endlink</li>
-<li>\link gv_shapes_replace_shapes() replace_shapes()  \endlink</li>
-<li>\link gv_shapes_set_memento() set_memento()  \endlink</li>
-<li>\link gv_shapes_to_dbf() to_dbf()  \endlink</li>
-<li>\link gv_shapes_to_shapefile() to_shapefile()  \endlink</li>
-<li>\link gv_shapes_transform() transform()  \endlink</li>
-<li>\link gv_shapes_translate_shapes() translate_shapes()  \endlink</li>
+<li>\link gv_shapes_add_height() add_height()  \endlink
+</li>
+<li>\link gv_shapes_add_shape() add_shape()  \endlink
+</li>
+<li>\link gv_shapes_add_shape_last() add_shape_last()  \endlink
+</li>
+<li>\link gv_shapes_changed() changed()  \endlink
+</li>
+<li>\link gv_shapes_class_init() class_init()  \endlink
+</li>
+<li>\link gv_shapes_del_memento() del_memento()  \endlink
+</li>
+<li>\link gv_shapes_delete_shapes() delete_shapes()  \endlink
+</li>
+<li>\link gv_shapes_finalize() finalize()  \endlink
+</li>
+<li>\link gv_shapes_from_ogr() from_ogr()  \endlink
+</li>
+<li>\link gv_shapes_from_ogr_layer() from_ogr_layer()  \endlink
+</li>
+<li>\link gv_shapes_from_shapefile() from_shapefile()  \endlink
+</li>
+<li>\link gv_shapes_get_extents() get_extents()  \endlink
+</li>
+<li>\link gv_shapes_get_memento() get_memento()  \endlink
+</li>
+<li>\link gv_shapes_get_type() get_type()  \endlink
+</li>
+<li>\link gv_shapes_init() init()  \endlink
+</li>
+<li>\link gv_shapes_insert_shapes() insert_shapes()  \endlink
+</li>
+<li>\link gv_shapes_new() new()  \endlink
+</li>
+<li>\link gv_shapes_read_from_file() read_from_file()  \endlink
+</li>
+<li>\link gv_shapes_replace_shapes() replace_shapes()  \endlink
+</li>
+<li>\link gv_shapes_set_memento() set_memento()  \endlink
+</li>
+<li>\link gv_shapes_to_dbf() to_dbf()  \endlink
+</li>
+<li>\link gv_shapes_to_shapefile() to_shapefile()  \endlink
+</li>
+<li>\link gv_shapes_transform() transform()  \endlink
+</li>
+<li>\link gv_shapes_translate_shapes() translate_shapes()  \endlink
+</li>
 </ul>
 \par  gv_shapes_layer
 <ul>
-<li>\link gv_shapes_layer_class_init() class_init()  \endlink</li>
-<li>\link gv_shapes_layer_data_change() data_change()  \endlink</li>
-<li>\link gv_shapes_layer_delete_node() delete_node()  \endlink</li>
-<li>\link gv_shapes_layer_delete_selected() delete_selected()  \endlink</li>
-<li>\link gv_shapes_layer_display_change() display_change()  \endlink</li>
-<li>\link gv_shapes_layer_draw() draw()  \endlink</li>
-<li>\link gv_shapes_layer_draw_brush() draw_brush()  \endlink</li>
-<li>\link gv_shapes_layer_draw_label() draw_label()  \endlink</li>
-<li>\link gv_shapes_layer_draw_pen() draw_pen()  \endlink</li>
-<li>\link gv_shapes_layer_draw_selected() draw_selected()  \endlink</li>
-<li>\link gv_shapes_layer_draw_shape() draw_shape()  \endlink</li>
-<li>\link gv_shapes_layer_draw_symbol() draw_symbol()  \endlink</li>
-<li>\link gv_shapes_layer_extents() extents()  \endlink</li>
-<li>\link gv_shapes_layer_finalize() finalize()  \endlink</li>
-<li>\link gv_shapes_layer_get_draw_info() get_draw_info()  \endlink</li>
-<li>\link gv_shapes_layer_get_node() get_node()  \endlink</li>
-<li>\link gv_shapes_layer_get_symbol_manager() get_symbol_manager()  \endlink</li>
-<li>\link gv_shapes_layer_get_type() get_type()  \endlink</li>
-<li>\link gv_shapes_layer_init() init()  \endlink</li>
-<li>\link gv_shapes_layer_insert_node() insert_node()  \endlink</li>
-<li>\link gv_shapes_layer_move_node() move_node()  \endlink</li>
-<li>\link gv_shapes_layer_new() new()  \endlink</li>
-<li>\link gv_shapes_layer_node_motion() node_motion()  \endlink</li>
-<li>\link gv_shapes_layer_override_color() override_color()  \endlink</li>
-<li>\link gv_shapes_layer_pick_node() pick_node()  \endlink</li>
-<li>\link gv_shapes_layer_pick_shape() pick_shape()  \endlink</li>
-<li>\link gv_shapes_layer_reproject() reproject()  \endlink</li>
-<li>\link gv_shapes_layer_select_new_shape() select_new_shape()  \endlink</li>
-<li>\link gv_shapes_layer_selection_change() selection_change()  \endlink</li>
-<li>\link gv_shapes_layer_set_data() set_data()  \endlink</li>
-<li>\link gv_shapes_layer_translate_selected() translate_selected()  \endlink</li>
+<li>\link gv_shapes_layer_class_init() class_init()  \endlink
+</li>
+<li>\link gv_shapes_layer_data_change() data_change()  \endlink
+</li>
+<li>\link gv_shapes_layer_delete_node() delete_node()  \endlink
+</li>
+<li>\link gv_shapes_layer_delete_selected() delete_selected()  \endlink
+</li>
+<li>\link gv_shapes_layer_display_change() display_change()  \endlink
+</li>
+<li>\link gv_shapes_layer_draw() draw()  \endlink
+</li>
+<li>\link gv_shapes_layer_draw_brush() draw_brush()  \endlink
+</li>
+<li>\link gv_shapes_layer_draw_label() draw_label()  \endlink
+</li>
+<li>\link gv_shapes_layer_draw_pen() draw_pen()  \endlink
+</li>
+<li>\link gv_shapes_layer_draw_selected() draw_selected()  \endlink
+</li>
+<li>\link gv_shapes_layer_draw_shape() draw_shape()  \endlink
+</li>
+<li>\link gv_shapes_layer_draw_symbol() draw_symbol()  \endlink
+</li>
+<li>\link gv_shapes_layer_extents() extents()  \endlink
+</li>
+<li>\link gv_shapes_layer_finalize() finalize()  \endlink
+</li>
+<li>\link gv_shapes_layer_get_draw_info() get_draw_info()  \endlink
+</li>
+<li>\link gv_shapes_layer_get_node() get_node()  \endlink
+</li>
+<li>\link gv_shapes_layer_get_symbol_manager() get_symbol_manager()  \endlink
+</li>
+<li>\link gv_shapes_layer_get_type() get_type()  \endlink
+</li>
+<li>\link gv_shapes_layer_init() init()  \endlink
+</li>
+<li>\link gv_shapes_layer_insert_node() insert_node()  \endlink
+</li>
+<li>\link gv_shapes_layer_move_node() move_node()  \endlink
+</li>
+<li>\link gv_shapes_layer_new() new()  \endlink
+</li>
+<li>\link gv_shapes_layer_node_motion() node_motion()  \endlink
+</li>
+<li>\link gv_shapes_layer_override_color() override_color()  \endlink
+</li>
+<li>\link gv_shapes_layer_pick_node() pick_node()  \endlink
+</li>
+<li>\link gv_shapes_layer_pick_shape() pick_shape()  \endlink
+</li>
+<li>\link gv_shapes_layer_reproject() reproject()  \endlink
+</li>
+<li>\link gv_shapes_layer_select_new_shape() select_new_shape()  \endlink
+</li>
+<li>\link gv_shapes_layer_selection_change() selection_change()  \endlink
+</li>
+<li>\link gv_shapes_layer_set_data() set_data()  \endlink
+</li>
+<li>\link gv_shapes_layer_translate_selected() translate_selected()  \endlink
+</li>
 </ul>
 \par  gv_symbol_manager
 <ul>
-<li>\link gv_symbol_manager_class_init() class_init()  \endlink</li>
-<li>\link gv_symbol_manager_eject_symbol() eject_symbol()  \endlink</li>
-<li>\link gv_symbol_manager_finalize() finalize()  \endlink</li>
-<li>\link gv_symbol_manager_get_names() get_names()  \endlink</li>
-<li>\link gv_symbol_manager_get_symbol() get_symbol()  \endlink</li>
-<li>\link gv_symbol_manager_get_type() get_type()  \endlink</li>
-<li>\link gv_symbol_manager_has_symbol() has_symbol()  \endlink</li>
-<li>\link gv_symbol_manager_init() init()  \endlink</li>
-<li>\link gv_symbol_manager_inject_raster_symbol() inject_raster_symbol()  \endlink</li>
-<li>\link gv_symbol_manager_inject_vector_symbol() inject_vector_symbol()  \endlink</li>
-<li>\link gv_symbol_manager_new() new()  \endlink</li>
-<li>\link gv_symbol_manager_save_vector_symbol() save_vector_symbol()  \endlink</li>
+<li>\link gv_symbol_manager_class_init() class_init()  \endlink
+</li>
+<li>\link gv_symbol_manager_eject_symbol() eject_symbol()  \endlink
+</li>
+<li>\link gv_symbol_manager_finalize() finalize()  \endlink
+</li>
+<li>\link gv_symbol_manager_get_names() get_names()  \endlink
+</li>
+<li>\link gv_symbol_manager_get_symbol() get_symbol()  \endlink
+</li>
+<li>\link gv_symbol_manager_get_type() get_type()  \endlink
+</li>
+<li>\link gv_symbol_manager_has_symbol() has_symbol()  \endlink
+</li>
+<li>\link gv_symbol_manager_init() init()  \endlink
+</li>
+<li>\link gv_symbol_manager_inject_raster_symbol() inject_raster_symbol()  \endlink
+</li>
+<li>\link gv_symbol_manager_inject_vector_symbol() inject_vector_symbol()  \endlink
+</li>
+<li>\link gv_symbol_manager_new() new()  \endlink
+</li>
+<li>\link gv_symbol_manager_save_vector_symbol() save_vector_symbol()  \endlink
+</li>
 </ul>
 \par  gv_texture_cache
 <ul>
-<li>\link gv_texture_cache_dump() dump()  \endlink</li>
-<li>\link gv_texture_cache_get_max() get_max()  \endlink</li>
-<li>\link gv_texture_cache_get_used() get_used()  \endlink</li>
-<li>\link gv_texture_cache_set_max() set_max()  \endlink</li>
+<li>\link gv_texture_cache_dump() dump()  \endlink
+</li>
+<li>\link gv_texture_cache_get_max() get_max()  \endlink
+</li>
+<li>\link gv_texture_cache_get_used() get_used()  \endlink
+</li>
+<li>\link gv_texture_cache_set_max() set_max()  \endlink
+</li>
 </ul>
 \par  gv_undo
 <ul>
-<li>\link gv_undo_can_undo() can_undo()  \endlink</li>
-<li>\link gv_undo_clear() clear()  \endlink</li>
-<li>\link gv_undo_close() close()  \endlink</li>
-<li>\link gv_undo_data_changing() data_changing()  \endlink</li>
-<li>\link gv_undo_data_destroy() data_destroy()  \endlink</li>
-<li>\link gv_undo_disable() disable()  \endlink</li>
-<li>\link gv_undo_enable() enable()  \endlink</li>
-<li>\link gv_undo_end_group() end_group()  \endlink</li>
-<li>\link gv_undo_init() init()  \endlink</li>
-<li>\link gv_undo_open() open()  \endlink</li>
-<li>\link gv_undo_pop() pop()  \endlink</li>
-<li>\link gv_undo_push() push()  \endlink</li>
-<li>\link gv_undo_register_data() register_data()  \endlink</li>
-<li>\link gv_undo_start_group() start_group()  \endlink</li>
+<li>\link gv_undo_can_undo() can_undo()  \endlink
+</li>
+<li>\link gv_undo_clear() clear()  \endlink
+</li>
+<li>\link gv_undo_close() close()  \endlink
+</li>
+<li>\link gv_undo_data_changing() data_changing()  \endlink
+</li>
+<li>\link gv_undo_data_destroy() data_destroy()  \endlink
+</li>
+<li>\link gv_undo_disable() disable()  \endlink
+</li>
+<li>\link gv_undo_enable() enable()  \endlink
+</li>
+<li>\link gv_undo_end_group() end_group()  \endlink
+</li>
+<li>\link gv_undo_init() init()  \endlink
+</li>
+<li>\link gv_undo_open() open()  \endlink
+</li>
+<li>\link gv_undo_pop() pop()  \endlink
+</li>
+<li>\link gv_undo_push() push()  \endlink
+</li>
+<li>\link gv_undo_register_data() register_data()  \endlink
+</li>
+<li>\link gv_undo_start_group() start_group()  \endlink
+</li>
 </ul>
 \par  gv_view_area
 <ul>
-<li>\link gv_view_area_3d_motion_handler() 3d_motion_handler()  \endlink</li>
-<li>\link gv_view_area_3d_move_event() 3d_move_event()  \endlink</li>
-<li>\link gv_view_area_active_layer() active_layer()  \endlink</li>
-<li>\link gv_view_area_add_layer() add_layer()  \endlink</li>
-<li>\link gv_view_area_adjustment() adjustment()  \endlink</li>
-<li>\link gv_view_area_begin() begin()  \endlink</li>
-<li>\link gv_view_area_bmfont_draw() bmfont_draw()  \endlink</li>
-<li>\link gv_view_area_bmfont_get_info() bmfont_get_info()  \endlink</li>
-<li>\link gv_view_area_bmfont_load() bmfont_load()  \endlink</li>
-<li>\link gv_view_area_button_press() button_press()  \endlink</li>
-<li>\link gv_view_area_button_release() button_release()  \endlink</li>
-<li>\link gv_view_area_change_notify() change_notify()  \endlink</li>
-<li>\link gv_view_area_class_init() class_init()  \endlink</li>
-<li>\link gv_view_area_configure() configure()  \endlink</li>
-<li>\link gv_view_area_copy_state() copy_state()  \endlink</li>
-<li>\link gv_view_area_correct_for_transform() correct_for_transform()  \endlink</li>
-<li>\link gv_view_area_create_thumbnail() create_thumbnail()  \endlink</li>
-<li>\link gv_view_area_destroy() destroy()  \endlink</li>
-<li>\link gv_view_area_disconnect() disconnect()  \endlink</li>
-<li>\link gv_view_area_expose() expose()  \endlink</li>
-<li>\link gv_view_area_finalize() finalize()  \endlink</li>
-<li>\link gv_view_area_fit_all_layers() fit_all_layers()  \endlink</li>
-<li>\link gv_view_area_fit_extents() fit_extents()  \endlink</li>
-<li>\link gv_view_area_fit_extents_3D() fit_extents_3D()  \endlink</li>
-<li>\link gv_view_area_fit_layer() fit_layer()  \endlink</li>
-<li>\link gv_view_area_format_point_query() format_point_query()  \endlink</li>
-<li>\link gv_view_area_get_arg() get_arg()  \endlink</li>
-<li>\link gv_view_area_get_background_color() get_background_color()  \endlink</li>
-<li>\link gv_view_area_get_extents() get_extents()  \endlink</li>
-<li>\link gv_view_area_get_flip_x() get_flip_x()  \endlink</li>
-<li>\link gv_view_area_get_flip_y() get_flip_y()  \endlink</li>
-<li>\link gv_view_area_get_fontnames() get_fontnames()  \endlink</li>
-<li>\link gv_view_area_get_gl_context() get_gl_context()  \endlink</li>
-<li>\link gv_view_area_get_height_scale() get_height_scale()  \endlink</li>
-<li>\link gv_view_area_get_layer_of_type() get_layer_of_type()  \endlink</li>
-<li>\link gv_view_area_get_look_at_pos() get_look_at_pos()  \endlink</li>
-<li>\link gv_view_area_get_mode() get_mode()  \endlink</li>
-<li>\link gv_view_area_get_named_layer() get_named_layer()  \endlink</li>
-<li>\link gv_view_area_get_primary_raster() get_primary_raster()  \endlink</li>
-<li>\link gv_view_area_get_projection() get_projection()  \endlink</li>
-<li>\link gv_view_area_get_properties() get_properties()  \endlink</li>
-<li>\link gv_view_area_get_property() get_property()  \endlink</li>
-<li>\link gv_view_area_get_raw() get_raw()  \endlink</li>
-<li>\link gv_view_area_get_share_list() get_share_list()  \endlink</li>
-<li>\link gv_view_area_get_type() get_type()  \endlink</li>
-<li>\link gv_view_area_get_volume() get_volume()  \endlink</li>
-<li>\link gv_view_area_get_world_extents() get_world_extents()  \endlink</li>
-<li>\link gv_view_area_get_zoom() get_zoom()  \endlink</li>
-<li>\link gv_view_area_gl_begin() gl_begin()  \endlink</li>
-<li>\link gv_view_area_gl_end() gl_end()  \endlink</li>
-<li>\link gv_view_area_height_scale() height_scale()  \endlink</li>
-<li>\link gv_view_area_init() init()  \endlink</li>
-<li>\link gv_view_area_inverse_map_pointer() inverse_map_pointer()  \endlink</li>
-<li>\link gv_view_area_key_press() key_press()  \endlink</li>
-<li>\link gv_view_area_list_layers() list_layers()  \endlink</li>
-<li>\link gv_view_area_make_current() make_current()  \endlink</li>
-<li>\link gv_view_area_map_location() map_location()  \endlink</li>
-<li>\link gv_view_area_map_pointer() map_pointer()  \endlink</li>
-<li>\link gv_view_area_motion_handle_hint() motion_handle_hint()  \endlink</li>
-<li>\link gv_view_area_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_view_area_new() new()  \endlink</li>
-<li>\link gv_view_area_page_setup() page_setup()  \endlink</li>
-<li>\link gv_view_area_pending_idle_work() pending_idle_work()  \endlink</li>
-<li>\link gv_view_area_print_postscript_to_file() print_postscript_to_file()  \endlink</li>
-<li>\link gv_view_area_print_postscript_to_pipe() print_postscript_to_pipe()  \endlink</li>
-<li>\link gv_view_area_print_to_file() print_to_file()  \endlink</li>
-<li>\link gv_view_area_print_to_windriver() print_to_windriver()  \endlink</li>
-<li>\link gv_view_area_queue_cursor_draw() queue_cursor_draw()  \endlink</li>
-<li>\link gv_view_area_queue_draw() queue_draw()  \endlink</li>
-<li>\link gv_view_area_realize() realize()  \endlink</li>
-<li>\link gv_view_area_redraw_timeout() redraw_timeout()  \endlink</li>
-<li>\link gv_view_area_remove_layer() remove_layer()  \endlink</li>
-<li>\link gv_view_area_render_postscript() render_postscript()  \endlink</li>
-<li>\link gv_view_area_render_to_func() render_to_func()  \endlink</li>
-<li>\link gv_view_area_reset_projection() reset_projection()  \endlink</li>
-<li>\link gv_view_area_rotate() rotate()  \endlink</li>
-<li>\link gv_view_area_set_3d_view() set_3d_view()  \endlink</li>
-<li>\link gv_view_area_set_3d_view_look_at() set_3d_view_look_at()  \endlink</li>
-<li>\link gv_view_area_set_active_layer() set_active_layer()  \endlink</li>
-<li>\link gv_view_area_set_adjustments() set_adjustments()  \endlink</li>
-<li>\link gv_view_area_set_arg() set_arg()  \endlink</li>
-<li>\link gv_view_area_set_background_color() set_background_color()  \endlink</li>
-<li>\link gv_view_area_set_flip_xy() set_flip_xy()  \endlink</li>
-<li>\link gv_view_area_set_mode() set_mode()  \endlink</li>
-<li>\link gv_view_area_set_projection() set_projection()  \endlink</li>
-<li>\link gv_view_area_set_property() set_property()  \endlink</li>
-<li>\link gv_view_area_set_raw() set_raw()  \endlink</li>
-<li>\link gv_view_area_set_rotation() set_rotation()  \endlink</li>
-<li>\link gv_view_area_set_state() set_state()  \endlink</li>
-<li>\link gv_view_area_set_translation() set_translation()  \endlink</li>
-<li>\link gv_view_area_state_changed() state_changed()  \endlink</li>
-<li>\link gv_view_area_swap_buffers() swap_buffers()  \endlink</li>
-<li>\link gv_view_area_swap_layers() swap_layers()  \endlink</li>
-<li>\link gv_view_area_translate() translate()  \endlink</li>
-<li>\link gv_view_area_unrealize() unrealize()  \endlink</li>
-<li>\link gv_view_area_update_adjustments() update_adjustments()  \endlink</li>
-<li>\link gv_view_area_zoom() zoom()  \endlink</li>
-<li>\link gv_view_area_zoompan_event() zoompan_event()  \endlink</li>
-<li>\link gv_view_area_zoompan_handler() zoompan_handler()  \endlink</li>
+<li>\link gv_view_area_3d_motion_handler() 3d_motion_handler()  \endlink
+</li>
+<li>\link gv_view_area_3d_move_event() 3d_move_event()  \endlink
+</li>
+<li>\link gv_view_area_active_layer() active_layer()  \endlink
+</li>
+<li>\link gv_view_area_add_layer() add_layer()  \endlink
+</li>
+<li>\link gv_view_area_adjustment() adjustment()  \endlink
+</li>
+<li>\link gv_view_area_begin() begin()  \endlink
+</li>
+<li>\link gv_view_area_bmfont_draw() bmfont_draw()  \endlink
+</li>
+<li>\link gv_view_area_bmfont_get_info() bmfont_get_info()  \endlink
+</li>
+<li>\link gv_view_area_bmfont_load() bmfont_load()  \endlink
+</li>
+<li>\link gv_view_area_button_press() button_press()  \endlink
+</li>
+<li>\link gv_view_area_button_release() button_release()  \endlink
+</li>
+<li>\link gv_view_area_change_notify() change_notify()  \endlink
+</li>
+<li>\link gv_view_area_class_init() class_init()  \endlink
+</li>
+<li>\link gv_view_area_configure() configure()  \endlink
+</li>
+<li>\link gv_view_area_copy_state() copy_state()  \endlink
+</li>
+<li>\link gv_view_area_correct_for_transform() correct_for_transform()  \endlink
+</li>
+<li>\link gv_view_area_create_thumbnail() create_thumbnail()  \endlink
+</li>
+<li>\link gv_view_area_destroy() destroy()  \endlink
+</li>
+<li>\link gv_view_area_disconnect() disconnect()  \endlink
+</li>
+<li>\link gv_view_area_expose() expose()  \endlink
+</li>
+<li>\link gv_view_area_finalize() finalize()  \endlink
+</li>
+<li>\link gv_view_area_fit_all_layers() fit_all_layers()  \endlink
+</li>
+<li>\link gv_view_area_fit_extents() fit_extents()  \endlink
+</li>
+<li>\link gv_view_area_fit_extents_3D() fit_extents_3D()  \endlink
+</li>
+<li>\link gv_view_area_fit_layer() fit_layer()  \endlink
+</li>
+<li>\link gv_view_area_format_point_query() format_point_query()  \endlink
+</li>
+<li>\link gv_view_area_get_arg() get_arg()  \endlink
+</li>
+<li>\link gv_view_area_get_background_color() get_background_color()  \endlink
+</li>
+<li>\link gv_view_area_get_extents() get_extents()  \endlink
+</li>
+<li>\link gv_view_area_get_flip_x() get_flip_x()  \endlink
+</li>
+<li>\link gv_view_area_get_flip_y() get_flip_y()  \endlink
+</li>
+<li>\link gv_view_area_get_fontnames() get_fontnames()  \endlink
+</li>
+<li>\link gv_view_area_get_gl_context() get_gl_context()  \endlink
+</li>
+<li>\link gv_view_area_get_height_scale() get_height_scale()  \endlink
+</li>
+<li>\link gv_view_area_get_layer_of_type() get_layer_of_type()  \endlink
+</li>
+<li>\link gv_view_area_get_look_at_pos() get_look_at_pos()  \endlink
+</li>
+<li>\link gv_view_area_get_mode() get_mode()  \endlink
+</li>
+<li>\link gv_view_area_get_named_layer() get_named_layer()  \endlink
+</li>
+<li>\link gv_view_area_get_primary_raster() get_primary_raster()  \endlink
+</li>
+<li>\link gv_view_area_get_projection() get_projection()  \endlink
+</li>
+<li>\link gv_view_area_get_properties() get_properties()  \endlink
+</li>
+<li>\link gv_view_area_get_property() get_property()  \endlink
+</li>
+<li>\link gv_view_area_get_raw() get_raw()  \endlink
+</li>
+<li>\link gv_view_area_get_share_list() get_share_list()  \endlink
+</li>
+<li>\link gv_view_area_get_type() get_type()  \endlink
+</li>
+<li>\link gv_view_area_get_volume() get_volume()  \endlink
+</li>
+<li>\link gv_view_area_get_world_extents() get_world_extents()  \endlink
+</li>
+<li>\link gv_view_area_get_zoom() get_zoom()  \endlink
+</li>
+<li>\link gv_view_area_gl_begin() gl_begin()  \endlink
+</li>
+<li>\link gv_view_area_gl_end() gl_end()  \endlink
+</li>
+<li>\link gv_view_area_height_scale() height_scale()  \endlink
+</li>
+<li>\link gv_view_area_init() init()  \endlink
+</li>
+<li>\link gv_view_area_inverse_map_pointer() inverse_map_pointer()  \endlink
+</li>
+<li>\link gv_view_area_key_press() key_press()  \endlink
+</li>
+<li>\link gv_view_area_list_layers() list_layers()  \endlink
+</li>
+<li>\link gv_view_area_make_current() make_current()  \endlink
+</li>
+<li>\link gv_view_area_map_location() map_location()  \endlink
+</li>
+<li>\link gv_view_area_map_pointer() map_pointer()  \endlink
+</li>
+<li>\link gv_view_area_motion_handle_hint() motion_handle_hint()  \endlink
+</li>
+<li>\link gv_view_area_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_view_area_new() new()  \endlink
+</li>
+<li>\link gv_view_area_page_setup() page_setup()  \endlink
+</li>
+<li>\link gv_view_area_pending_idle_work() pending_idle_work()  \endlink
+</li>
+<li>\link gv_view_area_print_postscript_to_file() print_postscript_to_file()  \endlink
+</li>
+<li>\link gv_view_area_print_postscript_to_pipe() print_postscript_to_pipe()  \endlink
+</li>
+<li>\link gv_view_area_print_to_file() print_to_file()  \endlink
+</li>
+<li>\link gv_view_area_print_to_windriver() print_to_windriver()  \endlink
+</li>
+<li>\link gv_view_area_queue_cursor_draw() queue_cursor_draw()  \endlink
+</li>
+<li>\link gv_view_area_queue_draw() queue_draw()  \endlink
+</li>
+<li>\link gv_view_area_realize() realize()  \endlink
+</li>
+<li>\link gv_view_area_redraw_timeout() redraw_timeout()  \endlink
+</li>
+<li>\link gv_view_area_remove_layer() remove_layer()  \endlink
+</li>
+<li>\link gv_view_area_render_postscript() render_postscript()  \endlink
+</li>
+<li>\link gv_view_area_render_to_func() render_to_func()  \endlink
+</li>
+<li>\link gv_view_area_reset_projection() reset_projection()  \endlink
+</li>
+<li>\link gv_view_area_rotate() rotate()  \endlink
+</li>
+<li>\link gv_view_area_set_3d_view() set_3d_view()  \endlink
+</li>
+<li>\link gv_view_area_set_3d_view_look_at() set_3d_view_look_at()  \endlink
+</li>
+<li>\link gv_view_area_set_active_layer() set_active_layer()  \endlink
+</li>
+<li>\link gv_view_area_set_adjustments() set_adjustments()  \endlink
+</li>
+<li>\link gv_view_area_set_arg() set_arg()  \endlink
+</li>
+<li>\link gv_view_area_set_background_color() set_background_color()  \endlink
+</li>
+<li>\link gv_view_area_set_flip_xy() set_flip_xy()  \endlink
+</li>
+<li>\link gv_view_area_set_mode() set_mode()  \endlink
+</li>
+<li>\link gv_view_area_set_projection() set_projection()  \endlink
+</li>
+<li>\link gv_view_area_set_property() set_property()  \endlink
+</li>
+<li>\link gv_view_area_set_raw() set_raw()  \endlink
+</li>
+<li>\link gv_view_area_set_rotation() set_rotation()  \endlink
+</li>
+<li>\link gv_view_area_set_state() set_state()  \endlink
+</li>
+<li>\link gv_view_area_set_translation() set_translation()  \endlink
+</li>
+<li>\link gv_view_area_state_changed() state_changed()  \endlink
+</li>
+<li>\link gv_view_area_swap_buffers() swap_buffers()  \endlink
+</li>
+<li>\link gv_view_area_swap_layers() swap_layers()  \endlink
+</li>
+<li>\link gv_view_area_translate() translate()  \endlink
+</li>
+<li>\link gv_view_area_unrealize() unrealize()  \endlink
+</li>
+<li>\link gv_view_area_update_adjustments() update_adjustments()  \endlink
+</li>
+<li>\link gv_view_area_zoom() zoom()  \endlink
+</li>
+<li>\link gv_view_area_zoompan_event() zoompan_event()  \endlink
+</li>
+<li>\link gv_view_area_zoompan_handler() zoompan_handler()  \endlink
+</li>
 </ul>
 \par  gv_view_link
 <ul>
-<li>\link gv_view_link_class_init() class_init()  \endlink</li>
-<li>\link gv_view_link_copy_state() copy_state()  \endlink</li>
-<li>\link gv_view_link_cursor_draw() cursor_draw()  \endlink</li>
-<li>\link gv_view_link_cursor_enter_notify() cursor_enter_notify()  \endlink</li>
-<li>\link gv_view_link_cursor_get_geo_x_y() cursor_get_geo_x_y()  \endlink</li>
-<li>\link gv_view_link_cursor_leave_notify() cursor_leave_notify()  \endlink</li>
-<li>\link gv_view_link_cursor_motion_notify() cursor_motion_notify()  \endlink</li>
-<li>\link gv_view_link_cursor_set_x_y() cursor_set_x_y()  \endlink</li>
-<li>\link gv_view_link_disable() disable()  \endlink</li>
-<li>\link gv_view_link_dispose() dispose()  \endlink</li>
-<li>\link gv_view_link_enable() enable()  \endlink</li>
-<li>\link gv_view_link_get_type() get_type()  \endlink</li>
-<li>\link gv_view_link_init() init()  \endlink</li>
-<li>\link gv_view_link_new() new()  \endlink</li>
-<li>\link gv_view_link_register_view() register_view()  \endlink</li>
-<li>\link gv_view_link_remove_view() remove_view()  \endlink</li>
-<li>\link gv_view_link_set_cursor_mode() set_cursor_mode()  \endlink</li>
-<li>\link gv_view_link_view_state_changed() view_state_changed()  \endlink</li>
+<li>\link gv_view_link_class_init() class_init()  \endlink
+</li>
+<li>\link gv_view_link_copy_state() copy_state()  \endlink
+</li>
+<li>\link gv_view_link_cursor_draw() cursor_draw()  \endlink
+</li>
+<li>\link gv_view_link_cursor_enter_notify() cursor_enter_notify()  \endlink
+</li>
+<li>\link gv_view_link_cursor_get_geo_x_y() cursor_get_geo_x_y()  \endlink
+</li>
+<li>\link gv_view_link_cursor_leave_notify() cursor_leave_notify()  \endlink
+</li>
+<li>\link gv_view_link_cursor_motion_notify() cursor_motion_notify()  \endlink
+</li>
+<li>\link gv_view_link_cursor_set_x_y() cursor_set_x_y()  \endlink
+</li>
+<li>\link gv_view_link_disable() disable()  \endlink
+</li>
+<li>\link gv_view_link_dispose() dispose()  \endlink
+</li>
+<li>\link gv_view_link_enable() enable()  \endlink
+</li>
+<li>\link gv_view_link_get_type() get_type()  \endlink
+</li>
+<li>\link gv_view_link_init() init()  \endlink
+</li>
+<li>\link gv_view_link_new() new()  \endlink
+</li>
+<li>\link gv_view_link_register_view() register_view()  \endlink
+</li>
+<li>\link gv_view_link_remove_view() remove_view()  \endlink
+</li>
+<li>\link gv_view_link_set_cursor_mode() set_cursor_mode()  \endlink
+</li>
+<li>\link gv_view_link_view_state_changed() view_state_changed()  \endlink
+</li>
 </ul>
 \par  SHP
 <ul>
-<li>\link SHPCheckBoundsOverlap() CheckBoundsOverlap()  \endlink</li>
-<li>\link SHPClose() Close()  \endlink</li>
-<li>\link SHPComputeExtents() ComputeExtents()  \endlink</li>
-<li>\link SHPCreate() Create()  \endlink</li>
-<li>\link SHPCreateObject() CreateObject()  \endlink</li>
-<li>\link SHPCreateSimpleObject() CreateSimpleObject()  \endlink</li>
-<li>\link SHPCreateTree() CreateTree()  \endlink</li>
-<li>\link SHPDestroyObject() DestroyObject()  \endlink</li>
-<li>\link SHPDestroyTree() DestroyTree()  \endlink</li>
-<li>\link SHPGetInfo() GetInfo()  \endlink</li>
-<li>\link SHPOpen() Open()  \endlink</li>
-<li>\link SHPPartTypeName() PartTypeName()  \endlink</li>
-<li>\link SHPReadObject() ReadObject()  \endlink</li>
-<li>\link SHPReadTree() ReadTree()  \endlink</li>
-<li>\link SHPRewindObject() RewindObject()  \endlink</li>
-<li>\link SHPTreeAddObject() TreeAddObject()  \endlink</li>
-<li>\link SHPTreeAddShapeId() TreeAddShapeId()  \endlink</li>
-<li>\link SHPTreeFindLikelyShapes() TreeFindLikelyShapes()  \endlink</li>
-<li>\link SHPTreeRemoveShapeId() TreeRemoveShapeId()  \endlink</li>
-<li>\link SHPTreeTrimExtraNodes() TreeTrimExtraNodes()  \endlink</li>
-<li>\link SHPTypeName() TypeName()  \endlink</li>
-<li>\link SHPWriteHeader() WriteHeader()  \endlink</li>
-<li>\link SHPWriteObject() WriteObject()  \endlink</li>
-<li>\link SHPWriteTree() WriteTree()  \endlink</li>
-<li>\link tess_begin() begin()  \endlink</li>
-<li>\link tess_combine() combine()  \endlink</li>
-<li>\link tess_end() end()  \endlink</li>
-<li>\link tess_error() error()  \endlink</li>
-<li>\link tess_vertex() vertex()  \endlink</li>
+<li>\link SHPCheckBoundsOverlap() CheckBoundsOverlap()  \endlink
+</li>
+<li>\link SHPClose() Close()  \endlink
+</li>
+<li>\link SHPComputeExtents() ComputeExtents()  \endlink
+</li>
+<li>\link SHPCreate() Create()  \endlink
+</li>
+<li>\link SHPCreateObject() CreateObject()  \endlink
+</li>
+<li>\link SHPCreateSimpleObject() CreateSimpleObject()  \endlink
+</li>
+<li>\link SHPCreateTree() CreateTree()  \endlink
+</li>
+<li>\link SHPDestroyObject() DestroyObject()  \endlink
+</li>
+<li>\link SHPDestroyTree() DestroyTree()  \endlink
+</li>
+<li>\link SHPGetInfo() GetInfo()  \endlink
+</li>
+<li>\link SHPOpen() Open()  \endlink
+</li>
+<li>\link SHPPartTypeName() PartTypeName()  \endlink
+</li>
+<li>\link SHPReadObject() ReadObject()  \endlink
+</li>
+<li>\link SHPReadTree() ReadTree()  \endlink
+</li>
+<li>\link SHPRewindObject() RewindObject()  \endlink
+</li>
+<li>\link SHPTreeAddObject() TreeAddObject()  \endlink
+</li>
+<li>\link SHPTreeAddShapeId() TreeAddShapeId()  \endlink
+</li>
+<li>\link SHPTreeFindLikelyShapes() TreeFindLikelyShapes()  \endlink
+</li>
+<li>\link SHPTreeRemoveShapeId() TreeRemoveShapeId()  \endlink
+</li>
+<li>\link SHPTreeTrimExtraNodes() TreeTrimExtraNodes()  \endlink
+</li>
+<li>\link SHPTypeName() TypeName()  \endlink
+</li>
+<li>\link SHPWriteHeader() WriteHeader()  \endlink
+</li>
+<li>\link SHPWriteObject() WriteObject()  \endlink
+</li>
+<li>\link SHPWriteTree() WriteTree()  \endlink
+</li>
+<li>\link tess_begin() begin()  \endlink
+</li>
+<li>\link tess_combine() combine()  \endlink
+</li>
+<li>\link tess_end() end()  \endlink
+</li>
+<li>\link tess_error() error()  \endlink
+</li>
+<li>\link tess_vertex() vertex()  \endlink
+</li>
 
 
 
@@ -647,243 +1240,444 @@
 </ul>
 \par  gv_zoompan_tool
 <ul>
-<li>\link gv_zoompan_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_zoompan_tool_button_release() button_release()  \endlink</li>
-<li>\link gv_zoompan_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_zoompan_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_zoompan_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_zoompan_tool_init() init()  \endlink</li>
-<li>\link gv_zoompan_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_zoompan_tool_new() new()  \endlink</li>
+<li>\link gv_zoompan_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_zoompan_tool_button_release() button_release()  \endlink
+</li>
+<li>\link gv_zoompan_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_zoompan_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_zoompan_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_zoompan_tool_init() init()  \endlink
+</li>
+<li>\link gv_zoompan_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_zoompan_tool_new() new()  \endlink
+</li>
 </ul>
 \par  gv_track_tool
 <ul>
-<li>\link gv_track_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_track_tool_dispose() dispose()  \endlink</li>
-<li>\link gv_track_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_track_tool_init() init()  \endlink</li>
-<li>\link gv_track_tool_leave_notify() leave_notify()  \endlink</li>
-<li>\link gv_track_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_track_tool_new() new()  \endlink</li>
+<li>\link gv_track_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_track_tool_dispose() dispose()  \endlink
+</li>
+<li>\link gv_track_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_track_tool_init() init()  \endlink
+</li>
+<li>\link gv_track_tool_leave_notify() leave_notify()  \endlink
+</li>
+<li>\link gv_track_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_track_tool_new() new()  \endlink
+</li>
 </ul>
 \par  gv_area_tool
 <ul>
-<li>\link gv_area_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_area_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_area_tool_configure() configure()  \endlink</li>
-<li>\link gv_area_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_area_tool_draw() draw()  \endlink</li>
-<li>\link gv_area_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_area_tool_init() init()  \endlink</li>
-<li>\link gv_area_tool_key_press() key_press()  \endlink</li>
-<li>\link gv_area_tool_layer_destroy() layer_destroy()  \endlink</li>
-<li>\link gv_area_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_area_tool_new() new()  \endlink</li>
-<li>\link gv_area_tool_set_layer() set_layer()  \endlink</li>
-<li>\link gv_area_tool_set_named_layer() set_named_layer()  \endlink</li>
-<li>\link gv_area_tool_stop_drawing() stop_drawing()  \endlink</li>
+<li>\link gv_area_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_area_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_area_tool_configure() configure()  \endlink
+</li>
+<li>\link gv_area_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_area_tool_draw() draw()  \endlink
+</li>
+<li>\link gv_area_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_area_tool_init() init()  \endlink
+</li>
+<li>\link gv_area_tool_key_press() key_press()  \endlink
+</li>
+<li>\link gv_area_tool_layer_destroy() layer_destroy()  \endlink
+</li>
+<li>\link gv_area_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_area_tool_new() new()  \endlink
+</li>
+<li>\link gv_area_tool_set_layer() set_layer()  \endlink
+</li>
+<li>\link gv_area_tool_set_named_layer() set_named_layer()  \endlink
+</li>
+<li>\link gv_area_tool_stop_drawing() stop_drawing()  \endlink
+</li>
 </ul>
 \par  gv_autopan_tool
 <ul>
-<li>\link gv_autopan_tool_activate() activate()  \endlink</li>
-<li>\link gv_autopan_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_autopan_tool_clear_trail() clear_trail()  \endlink</li>
-<li>\link gv_autopan_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_autopan_tool_dispose() dispose()  \endlink</li>
-<li>\link gv_autopan_tool_finalize() finalize()  \endlink</li>
-<li>\link gv_autopan_tool_get_location() get_location()  \endlink</li>
-<li>\link gv_autopan_tool_get_overlap() get_overlap()  \endlink</li>
-<li>\link gv_autopan_tool_get_rect() get_rect()  \endlink</li>
-<li>\link gv_autopan_tool_get_speed() get_speed()  \endlink</li>
-<li>\link gv_autopan_tool_get_state() get_state()  \endlink</li>
-<li>\link gv_autopan_tool_get_trail_parameters() get_trail_parameters()  \endlink</li>
-<li>\link gv_autopan_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_autopan_tool_init() init()  \endlink</li>
-<li>\link gv_autopan_tool_load_trail_tiles() load_trail_tiles()  \endlink</li>
-<li>\link gv_autopan_tool_new() new()  \endlink</li>
-<li>\link gv_autopan_tool_new_rect() new_rect()  \endlink</li>
-<li>\link gv_autopan_tool_pause() pause()  \endlink</li>
-<li>\link gv_autopan_tool_pick() pick()  \endlink</li>
-<li>\link gv_autopan_tool_play() play()  \endlink</li>
-<li>\link gv_autopan_tool_quit() quit()  \endlink</li>
-<li>\link gv_autopan_tool_register_view() register_view()  \endlink</li>
-<li>\link gv_autopan_tool_remove_view() remove_view()  \endlink</li>
-<li>\link gv_autopan_tool_save_trail_tiles() save_trail_tiles()  \endlink</li>
-<li>\link gv_autopan_tool_set_block_x_size() set_block_x_size()  \endlink</li>
-<li>\link gv_autopan_tool_set_lines_path() set_lines_path()  \endlink</li>
-<li>\link gv_autopan_tool_set_location() set_location()  \endlink</li>
-<li>\link gv_autopan_tool_set_overlap() set_overlap()  \endlink</li>
-<li>\link gv_autopan_tool_set_speed() set_speed()  \endlink</li>
-<li>\link gv_autopan_tool_set_standard_path() set_standard_path()  \endlink</li>
-<li>\link gv_autopan_tool_set_trail_color() set_trail_color()  \endlink</li>
-<li>\link gv_autopan_tool_set_trail_mode() set_trail_mode()  \endlink</li>
-<li>\link gv_autopan_tool_set_trail_parameters() set_trail_parameters()  \endlink</li>
-<li>\link gv_autopan_tool_set_x_resolution() set_x_resolution()  \endlink</li>
-<li>\link gv_autopan_tool_stop() stop()  \endlink</li>
-<li>\link gv_autopan_tool_sv_button_press() sv_button_press()  \endlink</li>
-<li>\link gv_autopan_tool_sv_button_release() sv_button_release()  \endlink</li>
-<li>\link gv_autopan_tool_sv_draw() sv_draw()  \endlink</li>
-<li>\link gv_autopan_tool_sv_motion_notify() sv_motion_notify()  \endlink</li>
+<li>\link gv_autopan_tool_activate() activate()  \endlink
+</li>
+<li>\link gv_autopan_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_autopan_tool_clear_trail() clear_trail()  \endlink
+</li>
+<li>\link gv_autopan_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_autopan_tool_dispose() dispose()  \endlink
+</li>
+<li>\link gv_autopan_tool_finalize() finalize()  \endlink
+</li>
+<li>\link gv_autopan_tool_get_location() get_location()  \endlink
+</li>
+<li>\link gv_autopan_tool_get_overlap() get_overlap()  \endlink
+</li>
+<li>\link gv_autopan_tool_get_rect() get_rect()  \endlink
+</li>
+<li>\link gv_autopan_tool_get_speed() get_speed()  \endlink
+</li>
+<li>\link gv_autopan_tool_get_state() get_state()  \endlink
+</li>
+<li>\link gv_autopan_tool_get_trail_parameters() get_trail_parameters()  \endlink
+</li>
+<li>\link gv_autopan_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_autopan_tool_init() init()  \endlink
+</li>
+<li>\link gv_autopan_tool_load_trail_tiles() load_trail_tiles()  \endlink
+</li>
+<li>\link gv_autopan_tool_new() new()  \endlink
+</li>
+<li>\link gv_autopan_tool_new_rect() new_rect()  \endlink
+</li>
+<li>\link gv_autopan_tool_pause() pause()  \endlink
+</li>
+<li>\link gv_autopan_tool_pick() pick()  \endlink
+</li>
+<li>\link gv_autopan_tool_play() play()  \endlink
+</li>
+<li>\link gv_autopan_tool_quit() quit()  \endlink
+</li>
+<li>\link gv_autopan_tool_register_view() register_view()  \endlink
+</li>
+<li>\link gv_autopan_tool_remove_view() remove_view()  \endlink
+</li>
+<li>\link gv_autopan_tool_save_trail_tiles() save_trail_tiles()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_block_x_size() set_block_x_size()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_lines_path() set_lines_path()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_location() set_location()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_overlap() set_overlap()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_speed() set_speed()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_standard_path() set_standard_path()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_trail_color() set_trail_color()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_trail_mode() set_trail_mode()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_trail_parameters() set_trail_parameters()  \endlink
+</li>
+<li>\link gv_autopan_tool_set_x_resolution() set_x_resolution()  \endlink
+</li>
+<li>\link gv_autopan_tool_stop() stop()  \endlink
+</li>
+<li>\link gv_autopan_tool_sv_button_press() sv_button_press()  \endlink
+</li>
+<li>\link gv_autopan_tool_sv_button_release() sv_button_release()  \endlink
+</li>
+<li>\link gv_autopan_tool_sv_draw() sv_draw()  \endlink
+</li>
+<li>\link gv_autopan_tool_sv_motion_notify() sv_motion_notify()  \endlink
+</li>
 </ul>
 \par  gv_tool
 <ul>
-<li>\link gv_tool_activate() activate()  \endlink</li>
-<li>\link gv_tool_check_bounds() check_bounds()  \endlink</li>
-<li>\link gv_tool_clamp_to_bounds() clamp_to_bounds()  \endlink</li>
-<li>\link gv_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_tool_get_view() get_view()  \endlink</li>
-<li>\link gv_tool_init() init()  \endlink</li>
-<li>\link gv_tool_real_activate() real_activate()  \endlink</li>
-<li>\link gv_tool_real_deactivate() real_deactivate()  \endlink</li>
-<li>\link gv_tool_set_boundary() set_boundary()  \endlink</li>
-<li>\link gv_tool_set_cursor() set_cursor()  \endlink</li>
+<li>\link gv_tool_activate() activate()  \endlink
+</li>
+<li>\link gv_tool_check_bounds() check_bounds()  \endlink
+</li>
+<li>\link gv_tool_clamp_to_bounds() clamp_to_bounds()  \endlink
+</li>
+<li>\link gv_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_tool_get_view() get_view()  \endlink
+</li>
+<li>\link gv_tool_init() init()  \endlink
+</li>
+<li>\link gv_tool_real_activate() real_activate()  \endlink
+</li>
+<li>\link gv_tool_real_deactivate() real_deactivate()  \endlink
+</li>
+<li>\link gv_tool_set_boundary() set_boundary()  \endlink
+</li>
+<li>\link gv_tool_set_cursor() set_cursor()  \endlink
+</li>
 </ul>
 \par  gv_line_tool
 <ul>
-<li>\link gv_line_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_line_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_line_tool_configure() configure()  \endlink</li>
-<li>\link gv_line_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_line_tool_draw() draw()  \endlink</li>
-<li>\link gv_line_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_line_tool_init() init()  \endlink</li>
-<li>\link gv_line_tool_key_press() key_press()  \endlink</li>
-<li>\link gv_line_tool_layer_destroy() layer_destroy()  \endlink</li>
-<li>\link gv_line_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_line_tool_new() new()  \endlink</li>
-<li>\link gv_line_tool_set_layer() set_layer()  \endlink</li>
-<li>\link gv_line_tool_set_named_layer() set_named_layer()  \endlink</li>
-<li>\link gv_line_tool_stop_drawing() stop_drawing()  \endlink</li>
+<li>\link gv_line_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_line_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_line_tool_configure() configure()  \endlink
+</li>
+<li>\link gv_line_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_line_tool_draw() draw()  \endlink
+</li>
+<li>\link gv_line_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_line_tool_init() init()  \endlink
+</li>
+<li>\link gv_line_tool_key_press() key_press()  \endlink
+</li>
+<li>\link gv_line_tool_layer_destroy() layer_destroy()  \endlink
+</li>
+<li>\link gv_line_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_line_tool_new() new()  \endlink
+</li>
+<li>\link gv_line_tool_set_layer() set_layer()  \endlink
+</li>
+<li>\link gv_line_tool_set_named_layer() set_named_layer()  \endlink
+</li>
+<li>\link gv_line_tool_stop_drawing() stop_drawing()  \endlink
+</li>
 </ul>
 \par  gv_node_tool
 <ul>
-<li>\link gv_node_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_node_tool_button_release() button_release()  \endlink</li>
-<li>\link gv_node_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_node_tool_configure() configure()  \endlink</li>
-<li>\link gv_node_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_node_tool_draw() draw()  \endlink</li>
-<li>\link gv_node_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_node_tool_init() init()  \endlink</li>
-<li>\link gv_node_tool_key_press() key_press()  \endlink</li>
-<li>\link gv_node_tool_layer_change() layer_change()  \endlink</li>
-<li>\link gv_node_tool_layer_destroy() layer_destroy()  \endlink</li>
-<li>\link gv_node_tool_make_cursor() make_cursor()  \endlink</li>
-<li>\link gv_node_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_node_tool_new() new()  \endlink</li>
-<li>\link gv_node_tool_set_layer() set_layer()  \endlink</li>
+<li>\link gv_node_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_node_tool_button_release() button_release()  \endlink
+</li>
+<li>\link gv_node_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_node_tool_configure() configure()  \endlink
+</li>
+<li>\link gv_node_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_node_tool_draw() draw()  \endlink
+</li>
+<li>\link gv_node_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_node_tool_init() init()  \endlink
+</li>
+<li>\link gv_node_tool_key_press() key_press()  \endlink
+</li>
+<li>\link gv_node_tool_layer_change() layer_change()  \endlink
+</li>
+<li>\link gv_node_tool_layer_destroy() layer_destroy()  \endlink
+</li>
+<li>\link gv_node_tool_make_cursor() make_cursor()  \endlink
+</li>
+<li>\link gv_node_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_node_tool_new() new()  \endlink
+</li>
+<li>\link gv_node_tool_set_layer() set_layer()  \endlink
+</li>
 </ul>
 \par  gv_rect_tool
 <ul>
-<li>\link gv_rect_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_rect_tool_button_release() button_release()  \endlink</li>
-<li>\link gv_rect_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_rect_tool_configure() configure()  \endlink</li>
-<li>\link gv_rect_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_rect_tool_draw() draw()  \endlink</li>
-<li>\link gv_rect_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_rect_tool_init() init()  \endlink</li>
-<li>\link gv_rect_tool_key_press() key_press()  \endlink</li>
-<li>\link gv_rect_tool_layer_destroy() layer_destroy()  \endlink</li>
-<li>\link gv_rect_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_rect_tool_new() new()  \endlink</li>
-<li>\link gv_rect_tool_reshape() reshape()  \endlink</li>
-<li>\link gv_rect_tool_set_layer() set_layer()  \endlink</li>
-<li>\link gv_rect_tool_set_named_layer() set_named_layer()  \endlink</li>
+<li>\link gv_rect_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_rect_tool_button_release() button_release()  \endlink
+</li>
+<li>\link gv_rect_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_rect_tool_configure() configure()  \endlink
+</li>
+<li>\link gv_rect_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_rect_tool_draw() draw()  \endlink
+</li>
+<li>\link gv_rect_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_rect_tool_init() init()  \endlink
+</li>
+<li>\link gv_rect_tool_key_press() key_press()  \endlink
+</li>
+<li>\link gv_rect_tool_layer_destroy() layer_destroy()  \endlink
+</li>
+<li>\link gv_rect_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_rect_tool_new() new()  \endlink
+</li>
+<li>\link gv_rect_tool_reshape() reshape()  \endlink
+</li>
+<li>\link gv_rect_tool_set_layer() set_layer()  \endlink
+</li>
+<li>\link gv_rect_tool_set_named_layer() set_named_layer()  \endlink
+</li>
 </ul>
 \par  gv_roi_tool
 <ul>
-<li>\link gv_roi_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_roi_tool_button_release() button_release()  \endlink</li>
-<li>\link gv_roi_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_roi_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_roi_tool_draw() draw()  \endlink</li>
-<li>\link gv_roi_tool_get_rect() get_rect()  \endlink</li>
-<li>\link gv_roi_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_roi_tool_init() init()  \endlink</li>
-<li>\link gv_roi_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_roi_tool_new() new()  \endlink</li>
-<li>\link gv_roi_tool_new_rect() new_rect()  \endlink</li>
-<li>\link gv_roi_tool_pick_border() pick_border()  \endlink</li>
-<li>\link gv_roi_tool_start_resize() start_resize()  \endlink</li>
+<li>\link gv_roi_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_roi_tool_button_release() button_release()  \endlink
+</li>
+<li>\link gv_roi_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_roi_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_roi_tool_draw() draw()  \endlink
+</li>
+<li>\link gv_roi_tool_get_rect() get_rect()  \endlink
+</li>
+<li>\link gv_roi_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_roi_tool_init() init()  \endlink
+</li>
+<li>\link gv_roi_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_roi_tool_new() new()  \endlink
+</li>
+<li>\link gv_roi_tool_new_rect() new_rect()  \endlink
+</li>
+<li>\link gv_roi_tool_pick_border() pick_border()  \endlink
+</li>
+<li>\link gv_roi_tool_start_resize() start_resize()  \endlink
+</li>
 </ul>
 \par  gv_rotate_tool
 <ul>
-<li>\link gv_rotate_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_rotate_tool_button_release() button_release()  \endlink</li>
-<li>\link gv_rotate_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_rotate_tool_classify_hit() classify_hit()  \endlink</li>
-<li>\link gv_rotate_tool_configure() configure()  \endlink</li>
-<li>\link gv_rotate_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_rotate_tool_draw() draw()  \endlink</li>
-<li>\link gv_rotate_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_rotate_tool_init() init()  \endlink</li>
-<li>\link gv_rotate_tool_key_press() key_press()  \endlink</li>
-<li>\link gv_rotate_tool_layer_destroy() layer_destroy()  \endlink</li>
-<li>\link gv_rotate_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_rotate_tool_new() new()  \endlink</li>
-<li>\link gv_rotate_tool_set_layer() set_layer()  \endlink</li>
-<li>\link gv_rotate_tool_set_named_layer() set_named_layer()  \endlink</li>
-<li>\link gv_rotate_tool_setup_arrows() setup_arrows()  \endlink</li>
-<li>\link gv_rotate_tool_terminate() terminate()  \endlink</li>
+<li>\link gv_rotate_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_rotate_tool_button_release() button_release()  \endlink
+</li>
+<li>\link gv_rotate_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_rotate_tool_classify_hit() classify_hit()  \endlink
+</li>
+<li>\link gv_rotate_tool_configure() configure()  \endlink
+</li>
+<li>\link gv_rotate_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_rotate_tool_draw() draw()  \endlink
+</li>
+<li>\link gv_rotate_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_rotate_tool_init() init()  \endlink
+</li>
+<li>\link gv_rotate_tool_key_press() key_press()  \endlink
+</li>
+<li>\link gv_rotate_tool_layer_destroy() layer_destroy()  \endlink
+</li>
+<li>\link gv_rotate_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_rotate_tool_new() new()  \endlink
+</li>
+<li>\link gv_rotate_tool_set_layer() set_layer()  \endlink
+</li>
+<li>\link gv_rotate_tool_set_named_layer() set_named_layer()  \endlink
+</li>
+<li>\link gv_rotate_tool_setup_arrows() setup_arrows()  \endlink
+</li>
+<li>\link gv_rotate_tool_terminate() terminate()  \endlink
+</li>
 </ul>
 \par  gv_selection_tool
 <ul>
-<li>\link gv_selection_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_selection_tool_button_release() button_release()  \endlink</li>
-<li>\link gv_selection_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_selection_tool_configure() configure()  \endlink</li>
-<li>\link gv_selection_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_selection_tool_draw() draw()  \endlink</li>
-<li>\link gv_selection_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_selection_tool_init() init()  \endlink</li>
-<li>\link gv_selection_tool_key_press() key_press()  \endlink</li>
-<li>\link gv_selection_tool_layer_destroy() layer_destroy()  \endlink</li>
-<li>\link gv_selection_tool_motion_notify() motion_notify()  \endlink</li>
-<li>\link gv_selection_tool_new() new()  \endlink</li>
-<li>\link gv_selection_tool_set_layer() set_layer()  \endlink</li>
+<li>\link gv_selection_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_selection_tool_button_release() button_release()  \endlink
+</li>
+<li>\link gv_selection_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_selection_tool_configure() configure()  \endlink
+</li>
+<li>\link gv_selection_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_selection_tool_draw() draw()  \endlink
+</li>
+<li>\link gv_selection_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_selection_tool_init() init()  \endlink
+</li>
+<li>\link gv_selection_tool_key_press() key_press()  \endlink
+</li>
+<li>\link gv_selection_tool_layer_destroy() layer_destroy()  \endlink
+</li>
+<li>\link gv_selection_tool_motion_notify() motion_notify()  \endlink
+</li>
+<li>\link gv_selection_tool_new() new()  \endlink
+</li>
+<li>\link gv_selection_tool_set_layer() set_layer()  \endlink
+</li>
 </ul>
+
+
 \par  gv_poi_tool
 <ul>
-<li>\link gv_poi_tool_button_release() button_release()  \endlink</li>
-<li>\link gv_poi_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_poi_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_poi_tool_draw() draw()  \endlink</li>
-<li>\link gv_poi_tool_get_point() get_point()  \endlink</li>
-<li>\link gv_poi_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_poi_tool_init() init()  \endlink</li>
-<li>\link gv_poi_tool_new() new()  \endlink</li>
-<li>\link gv_poi_tool_new_point() new_point()  \endlink</li>
+<li>\link gv_poi_tool_button_release() button_release()  \endlink
+</li>
+<li>\link gv_poi_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_poi_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_poi_tool_draw() draw()  \endlink
+</li>
+<li>\link gv_poi_tool_get_point() get_point()  \endlink
+</li>
+<li>\link gv_poi_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_poi_tool_init() init()  \endlink
+</li>
+<li>\link gv_poi_tool_new() new()  \endlink
+</li>
+<li>\link gv_poi_tool_new_point() new_point()  \endlink
+</li>
 </ul>
 \par  gv_point_tool
 <ul>
-<li>\link gv_point_tool_button_press() button_press()  \endlink</li>
-<li>\link gv_point_tool_class_init() class_init()  \endlink</li>
-<li>\link gv_point_tool_configure() configure()  \endlink</li>
-<li>\link gv_point_tool_deactivate() deactivate()  \endlink</li>
-<li>\link gv_point_tool_get_type() get_type()  \endlink</li>
-<li>\link gv_point_tool_init() init()  \endlink</li>
-<li>\link gv_point_tool_key_press() key_press()  \endlink</li>
-<li>\link gv_point_tool_layer_destroy() layer_destroy()  \endlink</li>
-<li>\link gv_point_tool_new() new()  \endlink</li>
-<li>\link gv_point_tool_set_layer() set_layer()  \endlink</li>
-<li>\link gv_point_tool_set_named_layer() set_named_layer()  \endlink</li>
+<li>\link gv_point_tool_button_press() button_press()  \endlink
+</li>
+<li>\link gv_point_tool_class_init() class_init()  \endlink
+</li>
+<li>\link gv_point_tool_configure() configure()  \endlink
+</li>
+<li>\link gv_point_tool_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_point_tool_get_type() get_type()  \endlink
+</li>
+<li>\link gv_point_tool_init() init()  \endlink
+</li>
+<li>\link gv_point_tool_key_press() key_press()  \endlink
+</li>
+<li>\link gv_point_tool_layer_destroy() layer_destroy()  \endlink
+</li>
+<li>\link gv_point_tool_new() new()  \endlink
+</li>
+<li>\link gv_point_tool_set_layer() set_layer()  \endlink
+</li>
+<li>\link gv_point_tool_set_named_layer() set_named_layer()  \endlink
+</li>
 </ul>
 \par  gv_toolbox
 <ul>
-<li>\link gv_toolbox_activate() activate()  \endlink</li>
-<li>\link gv_toolbox_activate_tool() activate_tool()  \endlink</li>
-<li>\link gv_toolbox_add_tool() add_tool()  \endlink</li>
-<li>\link gv_toolbox_class_init() class_init()  \endlink</li>
-<li>\link gv_toolbox_deactivate() deactivate()  \endlink</li>
-<li>\link gv_toolbox_dispose() dispose()  \endlink</li>
-<li>\link gv_toolbox_finalize() finalize()  \endlink</li>
-<li>\link gv_toolbox_get_type() get_type()  \endlink</li>
-<li>\link gv_toolbox_init() init()  \endlink</li>
-<li>\link gv_toolbox_new() new()  \endlink</li>
-<li>\link gv_toolbox_switch_to_view() switch_to_view()  \endlink</li>
-<li>\link gv_toolbox_view_event() view_event()  \endlink</li>
+<li>\link gv_toolbox_activate() activate()  \endlink
+</li>
+<li>\link gv_toolbox_activate_tool() activate_tool()  \endlink
+</li>
+<li>\link gv_toolbox_add_tool() add_tool()  \endlink
+</li>
+<li>\link gv_toolbox_class_init() class_init()  \endlink
+</li>
+<li>\link gv_toolbox_deactivate() deactivate()  \endlink
+</li>
+<li>\link gv_toolbox_dispose() dispose()  \endlink
+</li>
+<li>\link gv_toolbox_finalize() finalize()  \endlink
+</li>
+<li>\link gv_toolbox_get_type() get_type()  \endlink
+</li>
+<li>\link gv_toolbox_init() init()  \endlink
+</li>
+<li>\link gv_toolbox_new() new()  \endlink
+</li>
+<li>\link gv_toolbox_switch_to_view() switch_to_view()  \endlink
+</li>
+<li>\link gv_toolbox_view_event() view_event()  \endlink
+</li>
 </ul>
 */

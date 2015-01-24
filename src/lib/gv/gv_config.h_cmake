@@ -174,5 +174,14 @@
 #cmakedefine HAVE_PYTHON
 #endif
 
+/**
+ * @def USE_HASH_BASED_GVPROPERTIES
+ * @brief GvProperties with strings.
+ */
+#ifndef USE_HASH_BASED_GVPROPERTIES
+#cmakedefine USE_HASH_BASED_GVPROPERTIES
+#endif
+
+
 
 #endif // OPENEV_CONFIG_INCLUDE
